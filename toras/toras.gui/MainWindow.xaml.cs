@@ -21,7 +21,9 @@ namespace toras.gui
     /// </summary>
     public partial class MainWindow : Window
     {
-        private FileManager fm = new FileManager(); // Create instance of toras FileManager
+        private DirectoryManager dm = new DirectoryManager(); // Create instance of toras FileManager
+        private FileManager fm = new FileManager();
+        private string[] directories = new string[4]; // Stores all user selected directories
 
         public MainWindow()
         {
@@ -31,9 +33,11 @@ namespace toras.gui
         // Default directory button for choosing folder for transfer
         private void Default_directory_click(object sender, RoutedEventArgs e)
         {
-            string path = fm.ChooseFileDirectory();
-            Default_directory.Text = path;
-            fm.CheckDirectory(path);
+            string defaultPath = dm.ChooseFileDirectory();
+            directories[0] = defaultPath; // Sets index 0 of directories to default directory path
+            Default_directory.Text = directories[0];
+            dm.CheckDirectory(defaultPath);
+            fm.Save(directories);
         }
 
         private void Apply_button_click(object sender, RoutedEventArgs e)
@@ -41,14 +45,15 @@ namespace toras.gui
             Default_directory.Text = "Apply button clicked!";
         }
 
+        /* Exits the application without saving */
         private void Cancel_button_click(object sender, RoutedEventArgs e)
         {
-            Default_directory.Text = "Cancel button clicked!";
+            App.Current.Shutdown();
         }
 
         private void Ok_button_click(object sender, RoutedEventArgs e)
         {
-            Default_directory.Text = "OK button clicked!";
+            
         }
 
 

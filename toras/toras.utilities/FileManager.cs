@@ -3,56 +3,42 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.IO;
+
 
 namespace toras.utilities
 {
     public class FileManager
     {
-
-        public string ChooseFileDirectory()
+        /* Save directory paths to file */
+        public void Save(string[] directories)
         {
-            string path = ""; // Empty string file directory path
-            var fbd = new FolderBrowserDialog();
-            DialogResult result = fbd.ShowDialog();
-
-            if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
-            {
-                path = fbd.SelectedPath;
-            }
-
-            return path;
+            File.WriteAllLines(Directory.GetCurrentDirectory()+"/data.txt", directories); // Writes 
         }
 
-        /* Searches specified directory inputing files into array.
-         * @param directory, path of directory to be searched
-         * @return files, string array containing files */
-        public void CheckDirectory(string directory)
+        /* Save directory paths from file */
+        public void Load()
         {
-            string[] files = Directory.GetFiles(directory); // Populates array with files contained within directory
-            string display = "";
+            // If file exists, load it
 
-            // Iterate array adding elements to display string
-            foreach (string s in files) {
-                display += (s + "\n");
-            }
 
-            MessageBox.Show(display);
 
-            //return files;
+            // Populate textboxes
         }
 
-        /* Searches specified directory for the parsed file.
-         * @param directory, path of directory to search in
-         * @param filepath, path of file to search for
-         * @return true, if file found */
-        public bool CheckDirectoryForFile(String directory, String filepath)
-        {
-            //string[] files = CheckDirectory(directory); // Loads array with all files from directory
 
-            return true;
+
+        private void SavePathsToFile(string path)
+        {
+
         }
+
+        private void loadPathsFromFile()
+        {
+
+        }
+
+
 
     }
 }
