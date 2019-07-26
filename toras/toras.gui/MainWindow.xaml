@@ -1,0 +1,39 @@
+﻿<Window x:Class="toras.gui.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Toras" MinHeight="125" MinWidth="350" Height="125" Width="350" MaxHeight="125" MaxWidth="350">
+
+    <Border Padding="10">
+        <StackPanel>
+
+            <!-- Default Directory -->
+            <TextBlock Margin="0 0 0 2" Text="Default Directory" />
+            <Grid Margin="0 0 0 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
+                </Grid.ColumnDefinitions>
+
+                <TextBox x:Name="Default_directory" Margin="0 0 5 0" Grid.Column="0" />
+                <Button x:Name="Default_directory_button" Click="Default_directory_click" Margin="0 0 0 0" Grid.Column="1" Content="..." />
+            </Grid>
+
+            <!-- Base Buttons -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button x:Name="Ok_button" Click="Ok_button_click" Margin="0 0 5 0" Grid.Column="1" Content="OK" />
+                <Button x:Name="Cancel_button" Click="Cancel_button_click" Margin="5 0 5 0" Grid.Column="2" Content="Cancel" />
+                <Button x:Name="Apply_button" Click="Apply_button_click" Margin="5 0 0 0" Grid.Column="3" Content="Apply" />
+            </Grid>
+
+        </StackPanel>
+    </Border>
+</Window>
