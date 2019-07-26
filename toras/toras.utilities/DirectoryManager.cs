@@ -11,8 +11,7 @@ namespace toras.utilities
     public class DirectoryManager
     {
         /* Open folder dialog window allowing user to designate the
-         * directiory to be used as the default directory for file
-         * transfers.
+         * directiory to be used as the default directory for file transfers.
          * @return directory path if it passes suitability check */
         public string ChooseFileDirectory()
         {
@@ -30,9 +29,14 @@ namespace toras.utilities
         /* Searches specified directory inputing files into array.
          * @param directory, path of directory to be searched
          * @return files, string array containing files */
-        public void CheckDirectory(string directory)
+        public void CheckDirectory(string directoryFiles)
         {
-            string[] files = Directory.GetFiles(directory); // Populates array with files contained within directory
+           
+           
+
+                string[] files = Directory.GetFiles(directoryFiles); // Populates array with files contained within directory
+
+
             string display = "";
 
             // Iterate array adding elements to display string

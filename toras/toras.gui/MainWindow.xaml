@@ -4,14 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Toras" MinHeight="125" MinWidth="350" Height="125" Width="350" MaxHeight="125" MaxWidth="350">
+        Title="Toras" MinHeight="240" MinWidth="350" Height="240" Width="350" MaxHeight="240" MaxWidth="350">
 
     <Border Padding="10">
         <StackPanel>
 
             <!-- Default Directory -->
-            <TextBlock Margin="0 0 0 2" Text="Default Directory" />
-            <Grid Margin="0 0 0 10">
+            <TextBlock Margin="0 0 0 2" Text="Default Directory" FontWeight="Bold" />
+            <Grid Margin="0 0 0 15">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="40" />
@@ -19,6 +19,46 @@
 
                 <TextBox x:Name="Default_directory" Margin="0 0 5 0" Grid.Column="0" />
                 <Button x:Name="Default_directory_button" Click="Default_directory_click" Margin="0 0 0 0" Grid.Column="1" Content="..." />
+            </Grid>
+
+            <TextBlock Margin="0 0 0 3" Text="Modifiers" FontWeight="Bold" />
+            <!-- Shift Directory -->
+            <Grid Margin="0 0 0 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
+                </Grid.ColumnDefinitions>
+
+                <CheckBox x:Name="Shift_check" Margin="0 3 5 0">Shift</CheckBox>
+                <TextBox x:Name="Shift_directory" IsEnabled="{Binding IsChecked, ElementName=Shift_check, Mode=OneWay}" Margin="0 0 5 0" Grid.Column="1" />
+                <Button x:Name="Shift_directory_button" Click="Shift_directory_click" IsEnabled="{Binding IsChecked, ElementName=Shift_check, Mode=OneWay}" Margin="0 0 0 0" Grid.Column="2" Content="..." />
+            </Grid>
+
+            <!-- Ctrl Directory -->
+            <Grid Margin="0 0 0 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
+                </Grid.ColumnDefinitions>
+
+                <CheckBox x:Name="Ctrl_check" Margin="0 3 5 0">Ctrl</CheckBox>
+                <TextBox x:Name="Ctrl_directory" IsEnabled="{Binding IsChecked, ElementName=Ctrl_check, Mode=OneWay}" Margin="0 0 5 0" Grid.Column="1" />
+                <Button x:Name="Ctrl_directory_button" Click="Ctrl_directory_click" IsEnabled="{Binding IsChecked, ElementName=Ctrl_check, Mode=OneWay}" Margin="0 0 0 0" Grid.Column="2" Content="..." />
+            </Grid>
+
+            <!-- Alt Directory -->
+            <Grid Margin="0 0 0 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
+                </Grid.ColumnDefinitions>
+
+                <CheckBox x:Name="Alt_check" Margin="0 3 5 0">Alt</CheckBox>
+                <TextBox x:Name="Alt_directory" IsEnabled="{Binding IsChecked, ElementName=Alt_check, Mode=OneWay}" Margin="0 0 5 0" Grid.Column="1" />
+                <Button x:Name="Alt_directory_button" Click="Alt_directory_click" IsEnabled="{Binding IsChecked, ElementName=Alt_check, Mode=OneWay}" Margin="0 0 0 0" Grid.Column="2" Content="..." />
             </Grid>
 
             <!-- Base Buttons -->
