@@ -10,18 +10,20 @@ namespace toras.utilities
 {
     public class DirectoryManager
     {
-
+        /* Open folder dialog window allowing user to designate the
+         * directiory to be used as the default directory for file
+         * transfers.
+         * @return directory path if it passes suitability check */
         public string ChooseFileDirectory()
         {
-            var fbd = new FolderBrowserDialog();
+            var fbd = new FolderBrowserDialog(); // Creates instance of folder browser
             DialogResult result = fbd.ShowDialog();
 
-            // Checks if directory is acceptable
+            // Suitability check on designated path
             if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath)) {
                 return fbd.SelectedPath;
             }
 
-            // 
             return "";
         }
 

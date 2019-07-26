@@ -29,23 +29,24 @@ namespace toras.gui
         {
             InitializeComponent();
 
-            directories = fm.Load();
+            // Initialise & load directory paths into text boxes
+            //directories = fm.Load(); // Loads directory paths from file into directories
             LoadDirectoryPaths(); // Loads directory paths into corresponding text boxes
         }
 
-        // Default directory button for choosing folder for transfer
+        /* Open folder dialog box and adds user selected directory to directories array */
         private void Default_directory_click(object sender, RoutedEventArgs e)
         {
-            string defaultPath = dm.ChooseFileDirectory();
+            string defaultPath = dm.ChooseFileDirectory(); // Retuns path of chosen directory
             directories[0] = defaultPath; // Sets index 0 of directories to default directory path
-            Default_directory.Text = directories[0];
-            dm.CheckDirectory(defaultPath);
-            fm.Save(directories);
+            Default_directory.Text = directories[0]; // Sets text box to path
+            dm.CheckDirectory(defaultPath); // Shows message box of files within directory   
         }
 
+        /* Saves directory paths to file */
         private void Apply_button_click(object sender, RoutedEventArgs e)
         {
-            Default_directory.Text = "Apply button clicked!";
+            fm.Save(directories); // Saves directory paths to file
         }
 
         /* Exits the application without saving */
@@ -54,11 +55,14 @@ namespace toras.gui
             App.Current.Shutdown();
         }
 
+        /* Exits the application after saving */
         private void Ok_button_click(object sender, RoutedEventArgs e)
         {
-            
+            fm.Save(directories); // Saves directory paths to file
+            App.Current.Shutdown();
         }
 
+        /* Populates text boxes with the corresponding directory path */
         private void LoadDirectoryPaths()
         {
             Default_directory.Text = directories[0];
