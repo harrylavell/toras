@@ -17,8 +17,7 @@ namespace toras.utilities
             DialogResult result = fbd.ShowDialog();
 
             // Checks if directory is acceptable
-            if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
-            {
+            if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath)) {
                 return fbd.SelectedPath;
             }
 

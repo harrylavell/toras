@@ -28,6 +28,9 @@ namespace toras.gui
         public MainWindow()
         {
             InitializeComponent();
+
+            directories = fm.Load();
+            LoadDirectoryPaths(); // Loads directory paths into corresponding text boxes
         }
 
         // Default directory button for choosing folder for transfer
@@ -56,6 +59,9 @@ namespace toras.gui
             
         }
 
-
+        private void LoadDirectoryPaths()
+        {
+            Default_directory.Text = directories[0];
+        }
     }
 }

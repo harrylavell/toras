@@ -10,35 +10,23 @@ namespace toras.utilities
 {
     public class FileManager
     {
+        private readonly string dataFilePath = Directory.GetCurrentDirectory() + "/data.txt";
+
         /* Save directory paths to file */
         public void Save(string[] directories)
         {
-            File.WriteAllLines(Directory.GetCurrentDirectory()+"/data.txt", directories); // Writes 
+            File.WriteAllLines(dataFilePath, directories); // Writes directory paths to data file
         }
 
-        /* Save directory paths from file */
-        public void Load()
+        /* Load directory paths from file */
+        public string[] Load()
         {
             // If file exists, load it
+            if (File.Exists(dataFilePath)) {
+                return File.ReadAllLines(dataFilePath);
+            }
 
-
-
-            // Populate textboxes
+            return null; // Failed to read file
         }
-
-
-
-        private void SavePathsToFile(string path)
-        {
-
-        }
-
-        private void loadPathsFromFile()
-        {
-
-        }
-
-
-
     }
 }
