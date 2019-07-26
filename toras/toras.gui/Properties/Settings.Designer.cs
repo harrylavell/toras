@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace toras.gui.Properties
+namespace toras.manager.Properties
 {
 
 

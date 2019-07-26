@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using toras.utilities;
 
 namespace toras.gui
 {
@@ -20,9 +21,19 @@ namespace toras.gui
     /// </summary>
     public partial class MainWindow : Window
     {
+        private FileManager fm = new FileManager(); // Create instance of toras FileManager
+
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        // Default directory button for choosing folder for transfer
+        private void Default_directory_click(object sender, RoutedEventArgs e)
+        {
+            string path = fm.ChooseFileDirectory();
+            Default_directory.Text = path;
+            fm.CheckDirectory(path);
         }
 
         private void Apply_button_click(object sender, RoutedEventArgs e)
@@ -40,10 +51,6 @@ namespace toras.gui
             Default_directory.Text = "OK button clicked!";
         }
 
-        private void Default_directory_click(object sender, RoutedEventArgs e)
-        {
-            Default_directory.Text = "Directory Button Clicked!";
-        }
 
     }
 }
