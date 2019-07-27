@@ -30,7 +30,7 @@
                     <ColumnDefinition Width="40" />
                 </Grid.ColumnDefinitions>
 
-                <CheckBox x:Name="Shift_check" Margin="0 3 5 0">Shift</CheckBox>
+                <CheckBox x:Name="Shift_check" Checked="Shift_checkbox_changed" Unchecked="Shift_checkbox_changed" Margin="0 3 5 0">Shift</CheckBox>
                 <TextBox x:Name="Shift_directory" IsEnabled="{Binding IsChecked, ElementName=Shift_check, Mode=OneWay}" Margin="0 0 5 0" Grid.Column="1" />
                 <Button x:Name="Shift_directory_button" Click="Shift_directory_click" IsEnabled="{Binding IsChecked, ElementName=Shift_check, Mode=OneWay}" Margin="0 0 0 0" Grid.Column="2" Content="..." />
             </Grid>
@@ -43,7 +43,7 @@
                     <ColumnDefinition Width="40" />
                 </Grid.ColumnDefinitions>
 
-                <CheckBox x:Name="Ctrl_check" Margin="0 3 5 0">Ctrl</CheckBox>
+                <CheckBox x:Name="Ctrl_check" Checked="Ctrl_checkbox_changed" Unchecked="Ctrl_checkbox_changed" Margin="0 3 5 0">Ctrl</CheckBox>
                 <TextBox x:Name="Ctrl_directory" IsEnabled="{Binding IsChecked, ElementName=Ctrl_check, Mode=OneWay}" Margin="0 0 5 0" Grid.Column="1" />
                 <Button x:Name="Ctrl_directory_button" Click="Ctrl_directory_click" IsEnabled="{Binding IsChecked, ElementName=Ctrl_check, Mode=OneWay}" Margin="0 0 0 0" Grid.Column="2" Content="..." />
             </Grid>
@@ -56,7 +56,7 @@
                     <ColumnDefinition Width="40" />
                 </Grid.ColumnDefinitions>
 
-                <CheckBox x:Name="Alt_check" Margin="0 3 5 0">Alt</CheckBox>
+                <CheckBox x:Name="Alt_check" Checked="Alt_checkbox_changed" Unchecked="Alt_checkbox_changed" Margin="0 3 5 0">Alt</CheckBox>
                 <TextBox x:Name="Alt_directory" IsEnabled="{Binding IsChecked, ElementName=Alt_check, Mode=OneWay}" Margin="0 0 5 0" Grid.Column="1" />
                 <Button x:Name="Alt_directory_button" Click="Alt_directory_click" IsEnabled="{Binding IsChecked, ElementName=Alt_check, Mode=OneWay}" Margin="0 0 0 0" Grid.Column="2" Content="..." />
             </Grid>

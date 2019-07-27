@@ -5,28 +5,56 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-
 namespace toras.utilities
 {
-    public class FileManager
+    public static class FileManager
     {
-        private readonly string dataFilePath = Directory.GetCurrentDirectory() + "/data.txt";
+        private static readonly string dataPath = Directory.GetCurrentDirectory() + "/data.txt";
 
         /* Save directory paths to file */
-        public void Save(string[] directories)
-        {
-            File.WriteAllLines(dataFilePath, directories); // Writes directory paths to data file
+        public static void Save(string[] data)
+        {   
+            // Writes directory paths & checkbox status to data.txt
+            File.WriteAllLines(dataPath, data); // Writes output array to data.txt
         }
 
         /* Load directory paths from file */
-        public string[] Load()
+        public static string[] Load()
         {
             // If file exists, load it
-            if (File.Exists(dataFilePath)) {
-                return File.ReadAllLines(dataFilePath);
-            }
-
-            return null; // Failed to read file
+            if (File.Exists(dataPath))
+                return File.ReadAllLines(dataPath);
+            return null;
         }
+
+        /* Checks if data.txt exists within home directory
+         * @return false, if data.txt found
+         * @return true, if data.txt not found */
+        public static bool IsFirstSession()
+        {
+            if (File.Exists(dataPath))
+                return false;
+            return true;
+        }
+
+        public static void Parser(string[] args)
+        {
+
+            /*
+            if (KeyModifier.NoModifier()) // [0]
+            {
+                foreach (string path in args)
+                {
+                    FileManager.Move(path, )
+                }
+            }
+            */
+        }
+
+        private static void Move(string source, string destination)
+        {
+
+        }
+
     }
 }

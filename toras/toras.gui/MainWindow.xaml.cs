@@ -21,50 +21,105 @@ namespace toras.gui
     /// </summary>
     public partial class MainWindow : Window
     {
-        private DirectoryManager dm = new DirectoryManager(); // Create instance of toras FileManager
-        private FileManager fm = new FileManager();
-        private string[] directories = new string[4]; // Stores all user selected directories
+        private string[] data = new string[7]; // 0-3 (data) & 4-6 (Checkbox Flags)
 
         public MainWindow()
         {
             InitializeComponent();
-            LoadDirectoryPaths(); // Loads directory paths into corresponding text boxes
+            Startup();
         }
 
-        /* Open folder dialog box and adds user selected directory to directories array */
+        public void Startup()
+        {
+            data = FileManager.Load(); // Loads data from file into array
+
+            // Resume session if not first
+            if (!FileManager.IsFirstSession())
+                Resume();
+        }
+
+        private void Resume()
+        {
+            // Populate textboxes
+            Default_directory.Text = data[0];
+            Shift_directory.Text = data[1];
+            Ctrl_directory.Text = data[2];
+            Alt_directory.Text = data[3];
+
+            // Correct checkboxes
+            if (data[4].Equals("1"))
+                Shift_check.IsChecked = true;
+            else
+                Shift_check.IsChecked = false;
+
+            if (data[5].Equals("1"))
+                Ctrl_check.IsChecked = true;
+            else
+                Ctrl_check.IsChecked = false;
+
+            if (data[6].Equals("1"))
+                Alt_check.IsChecked = true;
+            else
+                Alt_check.IsChecked = false;
+        }
+
+        /* Open folder dialog box and adds user selected directory to data array */
         private void Default_directory_click(object sender, RoutedEventArgs e)
         {
-            string defaultPath = dm.ChooseFileDirectory(); // Retuns path of chosen directory
-            directories[0] = defaultPath; // Sets index 0 of directories to default directory path
-            Default_directory.Text = directories[0]; // Sets text box to path
-            dm.CheckDirectory(defaultPath); // Shows message box of files within directory   
+            string defaultPath = DirectoryManager.ChooseFileDirectory(); // Retuns path of chosen directory
+            data[0] = defaultPath; // Sets index 0 of data to default directory path
+            Default_directory.Text = data[0]; // Sets text box to path
         }
 
         private void Shift_directory_click(object sender, RoutedEventArgs e)
         {
-            string shiftPath = dm.ChooseFileDirectory(); // Retuns path of chosen directory
-            directories[1] = shiftPath; // Sets index 1 of directories to shift directory path
-            Shift_directory.Text = directories[1]; // Sets text box to path
+            string shiftPath = DirectoryManager.ChooseFileDirectory(); // Retuns path of chosen directory
+            data[1] = shiftPath; // Sets index 1 of data to shift directory path
+            Shift_directory.Text = data[1]; // Sets text box to path
         }
 
         private void Ctrl_directory_click(object sender, RoutedEventArgs e)
         {
-            string ctrlPath = dm.ChooseFileDirectory(); // Retuns path of chosen directory
-            directories[2] = ctrlPath; // Sets index 2 of directories to ctrl directory path
-            Ctrl_directory.Text = directories[2]; // Sets text box to path
+            string ctrlPath = DirectoryManager.ChooseFileDirectory(); // Retuns path of chosen directory
+            data[2] = ctrlPath; // Sets index 2 of data to ctrl directory path
+            Ctrl_directory.Text = data[2]; // Sets text box to path
         }
 
         private void Alt_directory_click(object sender, RoutedEventArgs e)
         {
-            string altPath = dm.ChooseFileDirectory(); // Retuns path of chosen directory
-            directories[3] = altPath; // Sets index 3 of directories to default directory path
-            Alt_directory.Text = directories[3]; // Sets text box to path
+            string altPath = DirectoryManager.ChooseFileDirectory(); // Retuns path of chosen directory
+            data[3] = altPath; // Sets index 3 of data to default directory path
+            Alt_directory.Text = data[3]; // Sets text box to path
+        }
+
+        private void Shift_checkbox_changed(object sender, RoutedEventArgs e)
+        {
+            if (Shift_check.IsChecked == true)
+                data[4] = "1"; // True
+            else
+                data[4] = "0"; // False
+        }
+
+        private void Ctrl_checkbox_changed(object sender, RoutedEventArgs e)
+        {
+            if (Ctrl_check.IsChecked == true)
+                data[5] = "1"; // True
+            else
+                data[5] = "0"; // False
+        }
+
+        private void Alt_checkbox_changed(object sender, RoutedEventArgs e)
+        {
+            if (Alt_check.IsChecked == true)
+                data[6] = "1"; // True
+            else
+                data[6] = "0"; // False
         }
 
         /* Saves directory paths to file */
         private void Apply_button_click(object sender, RoutedEventArgs e)
         {
-            fm.Save(directories); // Saves directory paths to file
+            FileManager.Save(data); // Saves directory paths to file
         }
 
         /* Exits the application without saving */
@@ -76,18 +131,9 @@ namespace toras.gui
         /* Exits the application after saving */
         private void Ok_button_click(object sender, RoutedEventArgs e)
         {
-            fm.Save(directories); // Saves directory paths to file
+            FileManager.Save(data); // Saves directory paths to file
             App.Current.Shutdown();
         }
 
-        /* Populates text boxes with the corresponding directory path */
-        private void LoadDirectoryPaths()
-        {
-            directories = fm.Load(); // Loads directory paths from file into directories
-            Default_directory.Text = directories[0]; // Initialise & load directory paths into text boxes
-            Shift_directory.Text = directories[1]; // Initialise & load directory paths into text boxes
-            Ctrl_directory.Text = directories[2]; // Initialise & load directory paths into text boxes
-            Alt_directory.Text = directories[3]; // Initialise & load directory paths into text boxes
-        }
     }
 }

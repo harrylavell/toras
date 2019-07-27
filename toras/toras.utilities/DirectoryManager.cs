@@ -8,12 +8,12 @@ using System.IO;
 
 namespace toras.utilities
 {
-    public class DirectoryManager
+    public static class DirectoryManager
     {
         /* Open folder dialog window allowing user to designate the
          * directiory to be used as the default directory for file transfers.
          * @return directory path if it passes suitability check */
-        public string ChooseFileDirectory()
+        public static string ChooseFileDirectory()
         {
             var fbd = new FolderBrowserDialog(); // Creates instance of folder browser
             DialogResult result = fbd.ShowDialog();
@@ -29,12 +29,9 @@ namespace toras.utilities
         /* Searches specified directory inputing files into array.
          * @param directory, path of directory to be searched
          * @return files, string array containing files */
-        public void CheckDirectory(string directoryFiles)
+        public static void CheckDirectory(string directoryFiles)
         {
-           
-           
-
-                string[] files = Directory.GetFiles(directoryFiles); // Populates array with files contained within directory
+            string[] files = Directory.GetFiles(directoryFiles); // Populates array with files contained within directory
 
 
             string display = "";
@@ -53,7 +50,7 @@ namespace toras.utilities
          * @param directory, path of directory to search in
          * @param filepath, path of file to search for
          * @return true, if file found */
-        public bool CheckDirectoryForFile(String directory, String filepath)
+        public static bool CheckDirectoryForFile(String directory, String filepath)
         {
             //string[] files = CheckDirectory(directory); // Loads array with all files from directory
 
