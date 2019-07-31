@@ -24,7 +24,6 @@ namespace toras.gui
             }
             else
             {
-                //MessageBox.Show(args[0]);
                 FileManager.Parser(args, KeyModifier.GetModifier());
             }
         }

@@ -95,6 +95,9 @@ namespace toras.gui
             // Loading Time
             FileManager.SetLoadingTime(data[7]);
             Loading_time_allowed.Text = data[7];
+
+            // Deactive Apply Button
+            Apply_button.IsEnabled = false;
         }
 
         /* Open folder dialog box and adds user selected directory to data array */
@@ -103,6 +106,9 @@ namespace toras.gui
             string defaultPath = DirectoryManager.ChooseFileDirectory(); // Retuns path of chosen directory
             data[0] = defaultPath; // Sets index 0 of data to default directory path
             Default_directory.Text = data[0]; // Sets text box to path
+
+            if (Default_directory.Text != "")
+                Apply_button.IsEnabled = true;
         }
 
         private void Shift_directory_click(object sender, RoutedEventArgs e)
@@ -110,6 +116,9 @@ namespace toras.gui
             string shiftPath = DirectoryManager.ChooseFileDirectory(); // Retuns path of chosen directory
             data[1] = shiftPath; // Sets index 1 of data to shift directory path
             Shift_directory.Text = data[1]; // Sets text box to path
+
+            if (Shift_directory.Text != "")
+                Apply_button.IsEnabled = true;
         }
 
         private void Ctrl_directory_click(object sender, RoutedEventArgs e)
@@ -117,6 +126,9 @@ namespace toras.gui
             string ctrlPath = DirectoryManager.ChooseFileDirectory(); // Retuns path of chosen directory
             data[2] = ctrlPath; // Sets index 2 of data to ctrl directory path
             Ctrl_directory.Text = data[2]; // Sets text box to path
+
+            if (Ctrl_directory.Text != "")
+                Apply_button.IsEnabled = true;
         }
 
         /*
@@ -133,6 +145,7 @@ namespace toras.gui
                 data[4] = "1"; // True
             else
                 data[4] = "0"; // False
+            Apply_button.IsEnabled = true;
         }
 
         private void Ctrl_checkbox_changed(object sender, RoutedEventArgs e)
@@ -141,6 +154,7 @@ namespace toras.gui
                 data[5] = "1"; // True
             else
                 data[5] = "0"; // False
+            Apply_button.IsEnabled = true;
         }
 
         /*
@@ -155,12 +169,14 @@ namespace toras.gui
         private void LoadingTimeChanged(object sender, TextChangedEventArgs e)
         {
             data[7] = Loading_time_allowed.Text;
+            Apply_button.IsEnabled = true;
         }
 
         /* Saves directory paths to file */
         private void Apply_button_click(object sender, RoutedEventArgs e)
         {
             FileManager.Save(data); // Saves directory paths to file
+            Apply_button.IsEnabled = false;
         }
 
         /* Exits the application without saving */
