@@ -11,22 +11,42 @@ namespace toras.utilities
 {
     public static class KeyModifier
     {
-        public static bool NoModifier()
+
+        public static int GetModifier()
+        {
+            int activeModifier = -1;
+
+            if (NoModifier())
+                activeModifier = 0; // No Modifier
+
+            else if (ShiftModifier())
+                activeModifier = 1; // Shift Modifier
+
+            else if (CtrlModifier()) 
+                activeModifier = 2; // Ctrl Modifier
+
+            else if (AltModifier())
+                activeModifier = 3; // Alt Modifier
+
+            return activeModifier;
+        }
+
+        private static bool NoModifier()
         {
             return !(ShiftModifier() || CtrlModifier() || AltModifier());
         }
 
-        public static bool ShiftModifier()
+        private static bool ShiftModifier()
         {
             return Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
         }
 
-        public static bool CtrlModifier()
+        private static bool CtrlModifier()
         {
             return Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
         }
 
-        public static bool AltModifier()
+        private static bool AltModifier()
         {
             return Keyboard.IsKeyDown(Key.LeftAlt) || Keyboard.IsKeyDown(Key.RightAlt);
         }

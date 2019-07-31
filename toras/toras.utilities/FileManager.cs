@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace toras.utilities
 {
     public static class FileManager
     {
-        private static readonly string dataPath = Directory.GetCurrentDirectory() + "/data.txt";
+        private static readonly string dataPath = Directory.GetCurrentDirectory() + "/" + "data.txt";
 
         /* Save directory paths to file */
         public static void Save(string[] data)
@@ -37,23 +39,71 @@ namespace toras.utilities
             return true;
         }
 
-        public static void Parser(string[] args)
+        public static void Parser(string[] args, int modifier)
         {
+            // Load Data File into string array
+            string[] data = Load();
 
-            /*
-            if (KeyModifier.NoModifier()) // [0]
+            // Tests whether modifier is active
+            if (CanMove(modifier))
             {
-                foreach (string path in args)
+                string destination = data[modifier]; // Set position to the corresponding path
+
+                foreach (string s in args)
                 {
-                    FileManager.Move(path, )
+                    File.Move(s, destination+GetFileName(s));
                 }
             }
-            */
         }
 
-        private static void Move(string source, string destination)
+        /* Tests whether a modifier is allowed to be run */
+        private static bool CanMove(int modifier)
         {
+            string[] data = Load();
 
+            if (modifier == 0)
+                return true;
+
+            // Shift Modifier
+            if (modifier == 1 && data[4] == "1")
+                return true;
+
+            // Ctrl Modifier
+            if (modifier == 2 && data[5] == "1")
+                return true;
+
+            // Alt Modifier
+            if (modifier == 3 && data[6] == "1")
+                return true;
+
+            return false;
+        }
+
+        private static string GetFileName(string toGet)
+        {
+            string fileName = "";
+
+            for (int i = toGet.Length - 1; i > 0; i--)
+            {
+                if (toGet[i] == '/' || toGet[i] == '\\')
+                    break;
+
+                fileName += toGet[i];
+            }
+
+            fileName = Reverse(fileName);
+
+            Trace.WriteLine(fileName);
+
+            return "/"+fileName;
+        }
+
+        private static string Reverse(string reverse)
+        {
+            char[] charArray = reverse.ToCharArray();
+            Array.Reverse(charArray);
+
+            return new string(charArray);
         }
 
     }
