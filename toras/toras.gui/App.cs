@@ -15,6 +15,7 @@ namespace toras.gui
         public static void Main(string[] args)
         {
             App app = new App();
+            
             // Standard startup
             if (args == null || args.Length == 0)
             {
@@ -22,18 +23,7 @@ namespace toras.gui
                 app.Run();
             }
             else
-            {
-
                 FileManager.Parser(args, KeyModifier.GetModifier());
-
-                // Print args
-                foreach (string s in args)
-                {
-                    MessageBox.Show(s);
-                }
-
-                
-            }
         }
     }
 }

@@ -21,30 +21,51 @@ namespace toras.gui
     /// </summary>
     public partial class MainWindow : Window
     {
-        private string[] data = new string[7]; // 0-3 (data) & 4-6 (Checkbox Flags)
+        string[] data = new string[7]; // 0-3 (data) & 4-6 (Checkbox Flags)
 
         public MainWindow()
         {
-            InitializeComponent();
-            Startup();
+                InitializeComponent();
+                Startup();
         }
 
         public void Startup()
         {
-            data = FileManager.Load(); // Loads data from file into array
-
-            // Resume session if not first
+            // Resume session if not first session
             if (!FileManager.IsFirstSession())
-                Resume();
+            {
+                data = FileManager.Load(); // Loads data from file into array
+                ResumeSession();
+            }
+            else {
+                CreateSession();
+            }
         }
 
-        private void Resume()
+        private void CreateSession()
+        {
+
+
+            data[0] = "No Directory";
+            data[1] = "No Directory";
+            data[2] = "No Directory";
+            data[3] = "No Directory";
+            data[4] = "0";
+            data[5] = "0";
+            data[6] = "0";
+        }
+
+        private void ResumeSession()
         {
             // Populate textboxes
-            Default_directory.Text = data[0];
-            Shift_directory.Text = data[1];
-            Ctrl_directory.Text = data[2];
-            Alt_directory.Text = data[3];
+            if (!data[0].Equals("No Directory")) // Default
+                Default_directory.Text = data[0];
+            if (!data[1].Equals("No Directory")) // Shift
+                Shift_directory.Text = data[1];
+            if (!data[2].Equals("No Directory")) // Ctrl
+                Ctrl_directory.Text = data[2];
+            if (!data[3].Equals("No Directory")) // Alt
+                Alt_directory.Text = data[3];
 
             // Correct checkboxes
             if (data[4].Equals("1"))

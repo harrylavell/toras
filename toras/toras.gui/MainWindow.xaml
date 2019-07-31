@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Toras" MinHeight="240" MinWidth="350" Height="240" Width="350" MaxHeight="240" MaxWidth="350">
+        Title="Toras Development" MinHeight="245" MinWidth="350" Height="245" Width="350" MaxHeight="245" MaxWidth="350">
 
     <Border Padding="10">
         <StackPanel>

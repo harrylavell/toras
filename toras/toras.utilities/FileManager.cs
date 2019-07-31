@@ -11,22 +11,27 @@ namespace toras.utilities
 {
     public static class FileManager
     {
+        // Stores the path of the data.txt file used throughout the program
         private static readonly string dataPath = Directory.GetCurrentDirectory() + "/" + "data.txt";
+        private static readonly string debugPath = Directory.GetCurrentDirectory() + "/" + "debug.txt";
 
-        /* Save directory paths to file */
+        /* Writes parsed string[] data to file.
+         * @param string[], directory paths & modifier settings */
         public static void Save(string[] data)
         {   
-            // Writes directory paths & checkbox status to data.txt
             File.WriteAllLines(dataPath, data); // Writes output array to data.txt
         }
 
-        /* Load directory paths from file */
+        /* Load data file, reading all data to string[].
+         * @return string[], contains directory paths and modifier settings */
         public static string[] Load()
         {
+            File.Delete(debugPath); // Delete debug.txt
+
             // If file exists, load it
             if (File.Exists(dataPath))
                 return File.ReadAllLines(dataPath);
-            return null;
+            return new string[7];
         }
 
         /* Checks if data.txt exists within home directory
@@ -39,6 +44,8 @@ namespace toras.utilities
             return true;
         }
 
+        /* Loads data file into array to test directory paths against 
+         * parsed args, and moves the file if so. */
         public static void Parser(string[] args, int modifier)
         {
             // Load Data File into string array
@@ -48,15 +55,36 @@ namespace toras.utilities
             if (CanMove(modifier))
             {
                 string destination = data[modifier]; // Set position to the corresponding path
+                string fileName = "";
 
+                /* Iterates each string within args array moving
+                 * each to their required destination */
                 foreach (string s in args)
                 {
-                    File.Move(s, destination+GetFileName(s));
+                    fileName = GetFileName(s);
+                    File.Move(s, destination+fileName); // Moves file to destination with correct file name
+                    Loaded(destination+fileName);
                 }
             }
         }
 
-        /* Tests whether a modifier is allowed to be run */
+        /* Searches parsed directory for the parsed file paths.
+         * @return true, if the file has successfully been loaded by torrent client
+         * @return false, if file still exists within directory after 5 seconds*/
+        private static void Loaded(string file)
+        {
+            System.Threading.Thread.Sleep(3000); // X amount of seconds
+            File.AppendAllText(debugPath, "Debug:" + Environment.NewLine);
+
+            if (File.Exists(file))
+                File.AppendAllText(debugPath, "Torrent client failed to load: " + GetFileName(file) + Environment.NewLine);
+            else
+                File.AppendAllText(debugPath, "Torrent client loaded: " + GetFileName(file) + Environment.NewLine);
+        }
+
+        /* Tests whether a file is allowed to be moved based on 
+         * the current modifier and modifier settings.
+         * return bool, true or false */
         private static bool CanMove(int modifier)
         {
             string[] data = Load();
@@ -79,25 +107,28 @@ namespace toras.utilities
             return false;
         }
 
+        /* Retrieves the actual file name (file name.torrent) of the parsed
+         * file path.
+         * @return fileName, the actual file name extracted from file path */
         private static string GetFileName(string toGet)
         {
             string fileName = "";
 
+            // Iterates through parsed string starting from the last element
+            // and adds the element to fileName until '\' or '/' is reached
             for (int i = toGet.Length - 1; i > 0; i--)
             {
                 if (toGet[i] == '/' || toGet[i] == '\\')
                     break;
-
-                fileName += toGet[i];
+                fileName += toGet[i]; // Add element to fileName
             }
 
-            fileName = Reverse(fileName);
-
-            Trace.WriteLine(fileName);
-
+            fileName = Reverse(fileName); // Backwards string is corrected
             return "/"+fileName;
         }
 
+        /* Converts parsed string into char array and reverses it.
+         * @return, reversed string */
         private static string Reverse(string reverse)
         {
             char[] charArray = reverse.ToCharArray();

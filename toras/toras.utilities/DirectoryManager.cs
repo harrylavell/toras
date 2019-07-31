@@ -10,7 +10,7 @@ namespace toras.utilities
 {
     public static class DirectoryManager
     {
-        /* Open folder dialog window allowing user to designate the
+        /* Opens folder dialog window allowing user to designate the
          * directiory to be used as the default directory for file transfers.
          * @return directory path if it passes suitability check */
         public static string ChooseFileDirectory()
@@ -28,12 +28,10 @@ namespace toras.utilities
 
         /* Searches specified directory inputing files into array.
          * @param directory, path of directory to be searched
-         * @return files, string array containing files */
-        public static void CheckDirectory(string directoryFiles)
+         * @return files, string array containing files inside directory */
+        private static string[] LoadDirectoryFiles(string directory)
         {
-            string[] files = Directory.GetFiles(directoryFiles); // Populates array with files contained within directory
-
-
+            string[] files = Directory.GetFiles(directory); // Populates array with files contained within directory
             string display = "";
 
             // Iterate array adding elements to display string
@@ -41,20 +39,30 @@ namespace toras.utilities
                 display += (s + "\n");
             }
 
-            MessageBox.Show(display);
+            //MessageBox.Show(display);
 
-            //return files;
+            return files;
         }
 
         /* Searches specified directory for the parsed file.
          * @param directory, path of directory to search in
          * @param filepath, path of file to search for
          * @return true, if file found */
-        public static bool CheckDirectoryForFile(String directory, String filepath)
+        public static bool FileExists(string directory, string filePath)
         {
-            //string[] files = CheckDirectory(directory); // Loads array with all files from directory
+            string[] files = LoadDirectoryFiles(directory); // Loads array with all files within parsed directory
 
-            return true;
+            MessageBox.Show("FileExists() Loaded");
+
+            // Iterate through directory files
+            foreach (string s in files)
+            {
+                MessageBox.Show(s+" ==== "+filePath);
+
+                if (string.Equals(s, filePath)) // Equal
+                    return true;
+            }
+            return false;
         }
 
     }
