@@ -71,7 +71,7 @@ namespace toras.gui
             if (!data[2].Equals("No Directory")) // Ctrl
                 Ctrl_directory.Text = data[2];
             if (!data[3].Equals("No Directory")) // Alt
-                Alt_directory.Text = data[3];
+                //Alt_directory.Text = data[3];
 
             // Correct checkboxes
             if (data[4].Equals("1"))
@@ -84,10 +84,12 @@ namespace toras.gui
             else
                 Ctrl_check.IsChecked = false;
 
+            /*
             if (data[6].Equals("1"))
                 Alt_check.IsChecked = true;
             else
                 Alt_check.IsChecked = false;
+                */
 
             // Loading Time
             FileManager.SetLoadingTime(data[7]);
@@ -116,12 +118,13 @@ namespace toras.gui
             Ctrl_directory.Text = data[2]; // Sets text box to path
         }
 
+        /*
         private void Alt_directory_click(object sender, RoutedEventArgs e)
         {
             string altPath = DirectoryManager.ChooseFileDirectory(); // Retuns path of chosen directory
             data[3] = altPath; // Sets index 3 of data to default directory path
             Alt_directory.Text = data[3]; // Sets text box to path
-        }
+        }*/
 
         private void Shift_checkbox_changed(object sender, RoutedEventArgs e)
         {
@@ -139,13 +142,14 @@ namespace toras.gui
                 data[5] = "0"; // False
         }
 
+        /*
         private void Alt_checkbox_changed(object sender, RoutedEventArgs e)
         {
             if (Alt_check.IsChecked == true)
                 data[6] = "1"; // True
             else
                 data[6] = "0"; // False
-        }
+        }*/
 
         private void LoadingTimeChanged(object sender, TextChangedEventArgs e)
         {
