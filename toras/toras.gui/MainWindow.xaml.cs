@@ -71,7 +71,7 @@ namespace toras.gui
                 Shift_directory.Text = data[1];
             if (!data[2].Equals("No Directory")) // Ctrl
                 Ctrl_directory.Text = data[2];
-            if (!data[3].Equals("No Directory")) // Alt
+            //if (!data[3].Equals("No Directory")) // Alt
                 //Alt_directory.Text = data[3];
 
             // Correct checkboxes
