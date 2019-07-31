@@ -14,6 +14,13 @@ namespace toras.utilities
         // Stores the path of the data.txt file used throughout the program
         private static readonly string dataPath = Directory.GetCurrentDirectory() + "/" + "data.txt";
         private static readonly string debugPath = Directory.GetCurrentDirectory() + "/" + "debug.txt";
+        private static int loadingTime = 100;
+
+        /* Convert parsed string to int and assigned it to loadingTime */
+        public static void SetLoadingTime(string lt)
+        {
+            loadingTime = Int32.Parse(lt);
+        }
 
         /* Writes parsed string[] data to file.
          * @param string[], directory paths & modifier settings */
@@ -31,7 +38,7 @@ namespace toras.utilities
             // If file exists, load it
             if (File.Exists(dataPath))
                 return File.ReadAllLines(dataPath);
-            return new string[7];
+            return new string[8];
         }
 
         /* Checks if data.txt exists within home directory
@@ -73,7 +80,7 @@ namespace toras.utilities
          * @return false, if file still exists within directory after 5 seconds*/
         private static void Loaded(string file)
         {
-            System.Threading.Thread.Sleep(3000); // X amount of seconds
+            System.Threading.Thread.Sleep(loadingTime); // X amount of seconds
             File.AppendAllText(debugPath, "Debug:" + Environment.NewLine);
 
             if (File.Exists(file))

@@ -21,7 +21,7 @@ namespace toras.gui
     /// </summary>
     public partial class MainWindow : Window
     {
-        string[] data = new string[7]; // 0-3 (data) & 4-6 (Checkbox Flags)
+        string[] data = new string[8]; // 0-3 (data) & 4-6 (Checkbox Flags)
 
         public MainWindow()
         {
@@ -44,15 +44,16 @@ namespace toras.gui
 
         private void CreateSession()
         {
+            data[0] = "No Directory"; // Default Directory
+            data[1] = "No Directory"; // Shift Directory
+            data[2] = "No Directory"; // Ctrl Directory
+            data[3] = "No Directory"; // Alt Directory
+            data[4] = "0"; // Shift Checkbox
+            data[5] = "0"; // Ctrl Checkbox
+            data[6] = "0"; // Alt Checkbox
+            data[7] = "100"; // Loading Time
 
-
-            data[0] = "No Directory";
-            data[1] = "No Directory";
-            data[2] = "No Directory";
-            data[3] = "No Directory";
-            data[4] = "0";
-            data[5] = "0";
-            data[6] = "0";
+            ResumeSession();
         }
 
         private void ResumeSession()
@@ -82,6 +83,10 @@ namespace toras.gui
                 Alt_check.IsChecked = true;
             else
                 Alt_check.IsChecked = false;
+
+            // Loading Time
+            FileManager.SetLoadingTime(data[7]);
+            Loading_time_allowed.Text = data[7];
         }
 
         /* Open folder dialog box and adds user selected directory to data array */
@@ -137,6 +142,11 @@ namespace toras.gui
                 data[6] = "0"; // False
         }
 
+        private void LoadingTimeChanged(object sender, TextChangedEventArgs e)
+        {
+            data[7] = Loading_time_allowed.Text;
+        }
+
         /* Saves directory paths to file */
         private void Apply_button_click(object sender, RoutedEventArgs e)
         {
@@ -155,6 +165,5 @@ namespace toras.gui
             FileManager.Save(data); // Saves directory paths to file
             App.Current.Shutdown();
         }
-
     }
 }

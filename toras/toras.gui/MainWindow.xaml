@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Toras Development" MinHeight="245" MinWidth="350" Height="245" Width="350" MaxHeight="245" MaxWidth="350">
+        Title="Toras Development" MinHeight="275" MinWidth="350" Height="275" Width="350" MaxHeight="275" MaxWidth="350">
 
     <Border Padding="10">
         <StackPanel>
@@ -61,6 +61,21 @@
                 <Button x:Name="Alt_directory_button" Click="Alt_directory_click" IsEnabled="{Binding IsChecked, ElementName=Alt_check, Mode=OneWay}" Margin="0 0 0 0" Grid.Column="2" Content="..." />
             </Grid>
 
+            <!-- Settings Area -->
+            <Grid Margin="0 5 0 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="75"/>
+                    <ColumnDefinition Width="20"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Margin="0 0 0 2" Text="Loading Time:" Grid.Column="1" />
+                <TextBox x:Name="Loading_time_allowed" TextChanged="LoadingTimeChanged" Margin="0 0 0 0" TextAlignment="Right" Grid.Column="2"/>
+                <TextBlock Margin="2 0 0 2" Text="ms" Grid.Column="3"/>
+            </Grid>
+            
+            
             <!-- Base Buttons -->
             <Grid>
                 <Grid.ColumnDefinitions>
