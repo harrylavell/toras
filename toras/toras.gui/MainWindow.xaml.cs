@@ -30,6 +30,7 @@ namespace toras.gui
             InitializeComponent();
 
             this.Title = title + version;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen; // Center Window
             
             Startup();
         }
