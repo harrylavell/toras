@@ -21,12 +21,17 @@ namespace toras.gui
     /// </summary>
     public partial class MainWindow : Window
     {
+        string title = "Toras";
+        string version = " " + "1.0.0";
         string[] data = new string[8]; // 0-3 (data) & 4-6 (Checkbox Flags)
 
         public MainWindow()
         {
-                InitializeComponent();
-                Startup();
+            InitializeComponent();
+
+            this.Title = title + version;
+            
+            Startup();
         }
 
         public void Startup()

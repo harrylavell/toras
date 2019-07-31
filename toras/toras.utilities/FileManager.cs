@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace toras.utilities
 {
     public static class FileManager
     {
         // Stores the path of the data.txt file used throughout the program
-        private static readonly string dataPath = Directory.GetCurrentDirectory() + "/" + "data.txt";
-        private static readonly string debugPath = Directory.GetCurrentDirectory() + "/" + "debug.txt";
+        private static readonly string dataPath = Application.StartupPath + "/" + "data.txt";
+        private static readonly string debugPath = Application.StartupPath + "/" + "debug.txt";
         private static int loadingTime = 100;
 
         /* Convert parsed string to int and assigned it to loadingTime */
@@ -33,7 +34,7 @@ namespace toras.utilities
          * @return string[], contains directory paths and modifier settings */
         public static string[] Load()
         {
-            File.Delete(debugPath); // Delete debug.txt
+            //File.Delete(debugPath); // Delete debug.txt
 
             // If file exists, load it
             if (File.Exists(dataPath))
@@ -69,7 +70,11 @@ namespace toras.utilities
                 foreach (string s in args)
                 {
                     fileName = GetFileName(s);
-                    File.Move(s, destination+fileName); // Moves file to destination with correct file name
+                    File.AppendAllText(debugPath, DateTime.Now + Environment.NewLine);
+                    File.AppendAllText(debugPath, "File Name: " + fileName + Environment.NewLine);
+                    File.AppendAllText(debugPath, "Source: " + s + Environment.NewLine);
+                    File.AppendAllText(debugPath, "Destination: " +destination + Environment.NewLine);
+                    File.Move(s, destination+=fileName); // Moves file to destination with correct file name
                     Loaded(destination+fileName);
                 }
             }
@@ -81,12 +86,13 @@ namespace toras.utilities
         private static void Loaded(string file)
         {
             System.Threading.Thread.Sleep(loadingTime); // X amount of seconds
-            File.AppendAllText(debugPath, "Debug:" + Environment.NewLine);
+            File.AppendAllText(debugPath, "Loaded? ");
 
             if (File.Exists(file))
-                File.AppendAllText(debugPath, "Torrent client failed to load: " + GetFileName(file) + Environment.NewLine);
+                File.AppendAllText(debugPath, "Torrent Failed to Load"  + Environment.NewLine);
             else
-                File.AppendAllText(debugPath, "Torrent client loaded: " + GetFileName(file) + Environment.NewLine);
+                File.AppendAllText(debugPath, "Torrent Loaded Successfully" + Environment.NewLine);
+            File.AppendAllText(debugPath, Environment.NewLine);
         }
 
         /* Tests whether a file is allowed to be moved based on 

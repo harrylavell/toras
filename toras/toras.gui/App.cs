@@ -23,7 +23,10 @@ namespace toras.gui
                 app.Run();
             }
             else
+            {
+                //MessageBox.Show(args[0]);
                 FileManager.Parser(args, KeyModifier.GetModifier());
+            }
         }
     }
 }
