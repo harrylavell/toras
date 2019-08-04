@@ -40,7 +40,6 @@ namespace Toras.Core
             foreach (string path in args)
             {
                 new Parser(path, modifier);
-                Debug.Trace(path);
             }
         }
 

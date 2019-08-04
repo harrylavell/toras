@@ -52,12 +52,8 @@ namespace Toras.Data
 
         private static void LoadData()
         {
-            Debug.Trace("Loading Data...");
-
             data = new string[8]; // Allocate correct size for data
             data = FileManager.Load();
-
-            Debug.Trace("Success");
         }
 
     }
