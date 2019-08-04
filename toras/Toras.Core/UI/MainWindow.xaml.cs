@@ -12,31 +12,38 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using toras.utilities;
+using Toras.Core;
+using Toras.Data;
+using Toras.Utilities;
 
-namespace toras.gui
+namespace Toras.UI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        string title = "Toras";
-        string version = " " + "1.0.0";
-        string[] data = new string[8]; // 0-3 (data) & 4-6 (Checkbox Flags)
+
+        private string title = "Toras";
+        private string version = " " + "1.0.0";
+        private string[] data = new string[8]; // 0-3 (data) & 4-6 (Checkbox Flags)
 
         public MainWindow()
         {
             InitializeComponent();
+        }
 
-            this.Title = title + version;
-            this.WindowStartupLocation = WindowStartupLocation.CenterScreen; // Center Window
-            
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            base.Title = title + version;
+            base.WindowStartupLocation = WindowStartupLocation.CenterScreen; // Center Window
+
             Startup();
         }
 
         public void Startup()
         {
+            /*
             // Resume session if not first session
             if (!FileManager.IsFirstSession())
             {
@@ -46,24 +53,16 @@ namespace toras.gui
             else {
                 CreateSession();
             }
+
+            */
+
+            data = Loader.GetData();
+            LoadData();
         }
 
-        private void CreateSession()
+        private void LoadData()
         {
-            data[0] = "No Directory"; // Default Directory
-            data[1] = "No Directory"; // Shift Directory
-            data[2] = "No Directory"; // Ctrl Directory
-            data[3] = "No Directory"; // Alt Directory
-            data[4] = "0"; // Shift Checkbox
-            data[5] = "0"; // Ctrl Checkbox
-            data[6] = "0"; // Alt Checkbox
-            data[7] = "100"; // Loading Time
 
-            ResumeSession();
-        }
-
-        private void ResumeSession()
-        {
             // Populate textboxes
             if (!data[0].Equals("No Directory")) // Default
                 Default_directory.Text = data[0];
@@ -91,10 +90,6 @@ namespace toras.gui
             else
                 Alt_check.IsChecked = false;
                 */
-
-            // Loading Time
-            FileManager.SetLoadingTime(data[7]);
-            Loading_time_allowed.Text = data[7];
 
             // Deactive Apply Button
             Apply_button.IsEnabled = false;
@@ -165,12 +160,6 @@ namespace toras.gui
             else
                 data[6] = "0"; // False
         }*/
-
-        private void LoadingTimeChanged(object sender, TextChangedEventArgs e)
-        {
-            data[7] = Loading_time_allowed.Text;
-            Apply_button.IsEnabled = true;
-        }
 
         /* Saves directory paths to file */
         private void Apply_button_click(object sender, RoutedEventArgs e)

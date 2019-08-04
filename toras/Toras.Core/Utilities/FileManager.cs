@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-namespace toras.utilities
+namespace Toras.Utilities
 {
     public static class FileManager
     {
@@ -16,6 +16,12 @@ namespace toras.utilities
         private static readonly string dataPath = Application.StartupPath + "/" + "data.txt";
         private static readonly string debugPath = Application.StartupPath + "/" + "debug.txt";
         private static int loadingTime = 100;
+
+        /* FileManager initialisation */
+        public static void Init()
+        {
+            File.Delete(debugPath); // Delete debug.txt
+        }
 
         /* Convert parsed string to int and assigned it to loadingTime */
         public static void SetLoadingTime(string lt)
@@ -45,7 +51,7 @@ namespace toras.utilities
         /* Checks if data.txt exists within home directory
          * @return false, if data.txt found
          * @return true, if data.txt not found */
-        public static bool IsFirstSession()
+        public static bool DataExists()
         {
             if (File.Exists(dataPath))
                 return false;
@@ -70,10 +76,7 @@ namespace toras.utilities
                 foreach (string s in args)
                 {
                     fileName = GetFileName(s);
-                    File.AppendAllText(debugPath, DateTime.Now + Environment.NewLine);
-                    File.AppendAllText(debugPath, "File Name: " + fileName + Environment.NewLine);
-                    File.AppendAllText(debugPath, "Source: " + s + Environment.NewLine);
-                    File.AppendAllText(debugPath, "Destination: " +destination + Environment.NewLine);
+                    Log(s, destination, fileName);
                     File.Move(s, destination+=fileName); // Moves file to destination with correct file name
                     Loaded(destination+fileName);
                 }
@@ -148,6 +151,21 @@ namespace toras.utilities
             Array.Reverse(charArray);
 
             return new string(charArray);
+        }
+
+        /* Write parameter string to debug.txt */
+        public static void WriteDebug(string output)
+        {
+            File.AppendAllText(debugPath, output + Environment.NewLine);
+        }
+
+        /* Records a log of the file transfer to debug.txt */
+        private static void Log(string s, string destination, string fileName)
+        {
+            File.AppendAllText(debugPath, DateTime.Now + Environment.NewLine);
+            File.AppendAllText(debugPath, "File Name: " + fileName + Environment.NewLine);
+            File.AppendAllText(debugPath, "Source: " + s + Environment.NewLine);
+            File.AppendAllText(debugPath, "Destination: " + destination + Environment.NewLine);
         }
 
     }

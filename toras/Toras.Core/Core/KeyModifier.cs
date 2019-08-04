@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using toras.utilities;
+using Toras.UI;
 using System.Windows.Forms;
 using System.Windows.Input;
 
-namespace toras.utilities
+namespace Toras.Core
 {
     public static class KeyModifier
     {
