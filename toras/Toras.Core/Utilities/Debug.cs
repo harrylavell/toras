@@ -29,7 +29,7 @@ namespace Toras.Utilities
         /* Calls trace, parsing new line */
         public static void Trace()
         {
-            Trace("\n");
+            Trace("");
         }
 
         /* Prints and writes parsed string on new line to console and debug.txt respectively */

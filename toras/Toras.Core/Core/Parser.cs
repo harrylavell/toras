@@ -22,6 +22,7 @@ namespace Toras.Core
             string fileExtension = GetFileExtension(inputPath); // Retuns file extension (e.g. .txt)
             string fileSource = inputPath; // Source is inputPath
             string fileDestination = GetFileDestination(modifier, fileExtension)+"/"+fileName; // Retuns file destination
+            string argument = "(" + argCount + ") ";
 
             if (CanMove(modifier))
             {
@@ -29,14 +30,17 @@ namespace Toras.Core
                 try
                 {
                     FileManager.Move(fileSource, fileDestination);
-                    Debug.Trace(fileName + " moved to " + fileDestination);
+                    FileManager.Log(fileName, fileSource, fileDestination);
+                    Debug.Trace(argument + fileName + " -> " + fileDestination);
                 }
                 catch (IOException)
                 {
-                    Debug.Trace("File already exists!");
+                    Debug.Trace(argument + fileName + " -$ " + "File already exists!");
                 }
 
             }
+
+            argCount++;
         }
 
         /* Tests whether a file is allowed to be moved based on 

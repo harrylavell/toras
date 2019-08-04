@@ -9,7 +9,7 @@ namespace Toras.Data
 {
     public static class Loader
     {
-        private static string[] data = new string[8];
+        private static string[] data;
 
         public static void Init()
         {
@@ -21,6 +21,7 @@ namespace Toras.Data
                 LoadData();
         }
 
+        /* Getter for other classes */
         public static string[] GetData()
         {
             return data;
@@ -34,7 +35,7 @@ namespace Toras.Data
             return FileManager.DataExists();
         }
 
-        /* Create default data */
+        /* Creates default data and saves it to file */
         private static void CreateData()
         {
             data[0] = "No Directory"; // Default Directory
@@ -50,9 +51,10 @@ namespace Toras.Data
             Debug.Trace("User's First Session: Creating data file");
         }
 
+        /* Loads in saved data and stores it within data array */
         private static void LoadData()
         {
-            data = new string[8]; // Allocate correct size for data
+            data = new string[FileManager.Load().Length]; // Allocated data the required size to store application data
             data = FileManager.Load();
         }
 

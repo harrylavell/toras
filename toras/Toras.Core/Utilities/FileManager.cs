@@ -15,6 +15,7 @@ namespace Toras.Utilities
         // Stores the path of the data.txt file used throughout the program
         private static readonly string dataPath = Application.StartupPath + "/" + "data.txt";
         private static readonly string debugPath = Application.StartupPath + "/" + "debug.txt";
+        private static readonly string transfersPath = Application.StartupPath + "/" + "transfers.txt";
 
         /* FileManager initialisation */
         public static void Init()
@@ -33,14 +34,15 @@ namespace Toras.Utilities
          * @return string[], contains directory paths and modifier settings */
         public static string[] Load()
         {
-            //File.Delete(debugPath); // Delete debug.txt
-
             // If file exists, load it
             if (File.Exists(dataPath))
                 return File.ReadAllLines(dataPath);
             return new string[8];
         }
 
+        /* Moves the parsed source file to the parsed destination.
+         * @param source, the source to be moved
+         * @param destination, where source is to be moved to */
         public static void Move(string source, string destination)
         {
             File.Move(source, destination);
@@ -56,20 +58,6 @@ namespace Toras.Utilities
             return true;
         }
 
-        /* Searches parsed directory for the parsed file paths.
-         * @return true, if the file has successfully been loaded by torrent client
-         * @return false, if file still exists within directory after 5 seconds*/
-        private static void Loaded(string file)
-        {
-            File.AppendAllText(debugPath, "Loaded? ");
-
-            if (File.Exists(file))
-                File.AppendAllText(debugPath, "Torrent Failed to Load"  + Environment.NewLine);
-            else
-                File.AppendAllText(debugPath, "Torrent Loaded Successfully" + Environment.NewLine);
-            File.AppendAllText(debugPath, Environment.NewLine);
-        }
-
         /* Write parameter string to debug.txt */
         public static void WriteDebug(string output)
         {
@@ -77,12 +65,13 @@ namespace Toras.Utilities
         }
 
         /* Records a log of the file transfer to debug.txt */
-        private static void Log(string s, string destination, string fileName)
+        public static void Log(string fileName, string source, string destination)
         {
-            File.AppendAllText(debugPath, DateTime.Now + Environment.NewLine);
-            File.AppendAllText(debugPath, "File Name: " + fileName + Environment.NewLine);
-            File.AppendAllText(debugPath, "Source: " + s + Environment.NewLine);
-            File.AppendAllText(debugPath, "Destination: " + destination + Environment.NewLine);
+            File.AppendAllText(transfersPath, DateTime.Now + Environment.NewLine);
+            File.AppendAllText(transfersPath, "File Name: " + fileName + Environment.NewLine);
+            File.AppendAllText(transfersPath, "Source: " + source + Environment.NewLine);
+            File.AppendAllText(transfersPath, "Destination: " + destination + Environment.NewLine);
+            File.AppendAllText(transfersPath, Environment.NewLine);
         }
 
     }

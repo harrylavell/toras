@@ -26,7 +26,7 @@ namespace Toras.UI
 
         private string title = "Toras";
         private string version = " " + "1.0.0";
-        private string[] data = new string[8]; // 0-3 (data) & 4-6 (Checkbox Flags)
+        private string[] data; // 0-3 (data) & 4-6 (Checkbox Flags)
 
         public MainWindow()
         {
@@ -37,24 +37,6 @@ namespace Toras.UI
         {
             base.Title = title + version;
             base.WindowStartupLocation = WindowStartupLocation.CenterScreen; // Center Window
-
-            Startup();
-        }
-
-        public void Startup()
-        {
-            /*
-            // Resume session if not first session
-            if (!FileManager.IsFirstSession())
-            {
-                data = FileManager.Load(); // Loads data from file into array
-                ResumeSession();
-            }
-            else {
-                CreateSession();
-            }
-
-            */
 
             data = Loader.GetData();
             LoadData();
@@ -70,8 +52,7 @@ namespace Toras.UI
                 Shift_directory.Text = data[1];
             if (!data[2].Equals("No Directory")) // Ctrl
                 Ctrl_directory.Text = data[2];
-            //if (!data[3].Equals("No Directory")) // Alt
-                //Alt_directory.Text = data[3];
+
 
             // Correct checkboxes
             if (data[4].Equals("1"))
@@ -84,12 +65,6 @@ namespace Toras.UI
             else
                 Ctrl_check.IsChecked = false;
 
-            /*
-            if (data[6].Equals("1"))
-                Alt_check.IsChecked = true;
-            else
-                Alt_check.IsChecked = false;
-                */
 
             // Deactive Apply Button
             Apply_button.IsEnabled = false;
@@ -126,14 +101,6 @@ namespace Toras.UI
                 Apply_button.IsEnabled = true;
         }
 
-        /*
-        private void Alt_directory_click(object sender, RoutedEventArgs e)
-        {
-            string altPath = DirectoryManager.ChooseFileDirectory(); // Retuns path of chosen directory
-            data[3] = altPath; // Sets index 3 of data to default directory path
-            Alt_directory.Text = data[3]; // Sets text box to path
-        }*/
-
         private void Shift_checkbox_changed(object sender, RoutedEventArgs e)
         {
             if (Shift_check.IsChecked == true)
@@ -152,19 +119,11 @@ namespace Toras.UI
             Apply_button.IsEnabled = true;
         }
 
-        /*
-        private void Alt_checkbox_changed(object sender, RoutedEventArgs e)
-        {
-            if (Alt_check.IsChecked == true)
-                data[6] = "1"; // True
-            else
-                data[6] = "0"; // False
-        }*/
-
         /* Saves directory paths to file */
         private void Apply_button_click(object sender, RoutedEventArgs e)
         {
             FileManager.Save(data); // Saves directory paths to file
+            ConfirmChanges();
             Apply_button.IsEnabled = false;
         }
 
@@ -178,7 +137,33 @@ namespace Toras.UI
         private void Ok_button_click(object sender, RoutedEventArgs e)
         {
             FileManager.Save(data); // Saves directory paths to file
+            ConfirmChanges();
             App.Current.Shutdown();
+        }
+
+        private void ConfirmChanges()
+        {
+            Console.Clear();
+            Debug.Trace("Debug Initialised");
+            Debug.Trace("=================");
+
+            Debug.Trace("Directory:");
+            Debug.Trace("Default Directory -> "+data[0]);
+            Debug.Trace("Shift Directory -> " + data[1]);
+            Debug.Trace("Ctrl Directory -> " + data[2]);
+
+            Debug.Trace("\nModifiers:");
+            if (data[4] == "1")
+                Debug.Trace("Shift Modifier -> Enabled");
+            else
+                Debug.Trace("Shift Modifier -> Disabled");
+
+            if (data[5] == "1")
+                Debug.Trace("Ctrl Modifier -> Enabled");
+            else
+                Debug.Trace("Ctrl Modifier -> Disabled");
+
+            Debug.Trace();
         }
     }
 }
