@@ -148,6 +148,5 @@ namespace Toras.Core
 
             return new string(charArray);
         }
-
     }
 }

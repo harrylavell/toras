@@ -31,7 +31,7 @@ namespace Toras.Core
                 Parse(args, KeyModifier.GetModifier());
 
                 watch.Stop();
-                Debug.Trace($"Total Transfer Time: {watch.ElapsedMilliseconds} ms");
+                Debug.Trace($"Total Transfer Time: {watch.ElapsedMilliseconds}ms");
             }
 
             if (debug)
