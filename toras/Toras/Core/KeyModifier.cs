@@ -28,12 +28,15 @@ namespace Toras.Core
             else if (AltModifier())
                 activeModifier = 3; // Alt Modifier
 
+            else if (FtpModifier())
+                activeModifier = 4; // Alt Modifier
+
             return activeModifier;
         }
 
         private static bool NoModifier()
         {
-            return !(ShiftModifier() || CtrlModifier() || AltModifier());
+            return !(ShiftModifier() || CtrlModifier() || AltModifier() || FtpModifier());
         }
 
         private static bool ShiftModifier()
@@ -49,6 +52,11 @@ namespace Toras.Core
         private static bool AltModifier()
         {
             return Keyboard.IsKeyDown(Key.LeftAlt) || Keyboard.IsKeyDown(Key.RightAlt);
+        }
+
+        private static bool FtpModifier()
+        {
+            return Keyboard.IsKeyDown(Key.F);
         }
     }
 }

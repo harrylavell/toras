@@ -37,7 +37,7 @@ namespace Toras.Utilities
             // If file exists, load it
             if (File.Exists(dataPath))
                 return File.ReadAllLines(dataPath);
-            return new string[8];
+            return new string[FileManager.Load().Length];
         }
 
         /* Moves the parsed source file to the parsed destination.

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toras", "Toras.Core\Toras.csproj", "{26947409-417A-4415-8B74-E62891A78257}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toras", "Toras\Toras.csproj", "{26947409-417A-4415-8B74-E62891A78257}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +32,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {3D633D46-6F13-40DA-8CD1-2AE35F79127E}
+		SolutionGuid = {97CD3AD1-370E-467B-A486-2C535C1B6F30}
 	EndGlobalSection
 EndGlobal

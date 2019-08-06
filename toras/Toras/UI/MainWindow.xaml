@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Toras" MinHeight="245" MinWidth="350" Height="245" Width="350" MaxHeight="245" MaxWidth="350" Loaded="Window_Loaded">
+        Title="Toras" MinHeight="285" MinWidth="350" Height="285" Width="350" MaxHeight="285" MaxWidth="350" Loaded="Window_Loaded">
 
     <Border Padding="10">
         <StackPanel>
@@ -48,24 +48,38 @@
                 <Button x:Name="Ctrl_directory_button" Click="Ctrl_directory_click" IsEnabled="{Binding IsChecked, ElementName=Ctrl_check, Mode=OneWay}" Margin="0 0 0 0" Grid.Column="2" Content="..." />
             </Grid>
 
-            
-            <!-- Settings Area -->
-            <!--
-            <Grid Margin="0 5 0 10">
+            <TextBlock Margin="0 0 0 3" Text="FTP Server" FontWeight="Bold" />
+            <!-- FTP Server #1 -->
+            <Grid Margin="0 0 0 5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="80"/>
-                    <ColumnDefinition Width="75"/>
-                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Margin="0 0 0 2" Text="Loading Time:" Grid.Column="1" />
-                <TextBox x:Name="Loading_time_allowed" TextChanged="LoadingTimeChanged" Margin="0 0 0 0" TextAlignment="Right" Grid.Column="2"/>
-                <TextBlock Margin="2 0 0 2" Text="ms" Grid.Column="3"/>
+                <CheckBox x:Name="Ftp1_check" Checked="Ftp1_checkbox_changed" Unchecked="Ftp1_checkbox_changed" Margin="0 3 5 0">F</CheckBox>
+                <TextBox x:Name="Ftp1_address" IsEnabled="{Binding IsChecked, ElementName=Ftp1_check, Mode=OneWay}" Margin="0 0 5 0" Grid.Column="1" />
+                <Button x:Name="Ftp1_test_button" Click="Ftp1_test_click" IsEnabled="{Binding IsChecked, ElementName=Ftp1_check, Mode=OneWay}" Margin="0 0 0 0" Grid.Column="2" Content="Test" />
             </Grid>
-            -->
+
+            <Grid Margin="0 0 0 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Margin="0 0 0 2" Text="Username:" Grid.Column="1" />
+                <TextBox x:Name="Ftp1_username" IsEnabled="{Binding IsChecked, ElementName=Ftp1_check, Mode=OneWay}" Margin="0 0 5 0" Grid.Column="2" />
+                <TextBlock Margin="0 0 0 2" Text="Password:" Grid.Column="3" />
+                <TextBox x:Name="Ftp1_password" IsEnabled="{Binding IsChecked, ElementName=Ftp1_check, Mode=OneWay}" Margin="0 0 5 0" Grid.Column="4" />
+               
+            </Grid>
             
-            
+
             <!-- Base Buttons -->
             <Grid>
                 <Grid.ColumnDefinitions>

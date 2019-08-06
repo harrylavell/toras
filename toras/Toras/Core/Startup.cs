@@ -24,7 +24,15 @@ namespace Toras.Core
 
             // Calls Parse for file transfer to determined location
             else
+            {
+                var watch = new System.Diagnostics.Stopwatch(); // Used for recording code execution time
+                watch.Start();
+
                 Parse(args, KeyModifier.GetModifier());
+
+                watch.Stop();
+                Debug.Trace($"Total Transfer Time: {watch.ElapsedMilliseconds} ms");
+            }
 
             if (debug)
                 Debug.ShowEnd();

@@ -101,6 +101,14 @@ namespace Toras.UI
                 Apply_button.IsEnabled = true;
         }
 
+        private void Ftp1_test_click(object sender, RoutedEventArgs e)
+        {
+            data[8] = Ftp1_address.Text;
+            data[9] = Ftp1_username.Text;
+            data[10] = Ftp1_password.Text;
+            FTP.TestConnection();
+        }
+
         private void Shift_checkbox_changed(object sender, RoutedEventArgs e)
         {
             if (Shift_check.IsChecked == true)
@@ -114,6 +122,15 @@ namespace Toras.UI
         {
             if (Ctrl_check.IsChecked == true)
                 data[5] = "1"; // True
+            else
+                data[5] = "0"; // False
+            Apply_button.IsEnabled = true;
+        }
+
+        private void Ftp1_checkbox_changed(object sender, RoutedEventArgs e)
+        {
+            if (Ftp1_check.IsChecked == true)
+                data[6] = "1"; // True
             else
                 data[5] = "0"; // False
             Apply_button.IsEnabled = true;

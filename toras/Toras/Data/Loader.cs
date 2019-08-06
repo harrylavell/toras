@@ -38,6 +38,7 @@ namespace Toras.Data
         /* Creates default data and saves it to file */
         private static void CreateData()
         {
+            data = new string[11];
             data[0] = "No Directory"; // Default Directory
             data[1] = "No Directory"; // Shift Directory
             data[2] = "No Directory"; // Ctrl Directory
@@ -46,6 +47,9 @@ namespace Toras.Data
             data[5] = "0"; // Ctrl Checkbox
             data[6] = "0"; // Alt Checkbox
             data[7] = "100"; // Loading Time
+            data[8] = ""; // FTP Address
+            data[9] = ""; // FTP Username
+            data[10] = ""; // FTP Password
             FileManager.Save(data); // Writes new data to file
 
             Debug.Trace("User's First Session: Creating data file");

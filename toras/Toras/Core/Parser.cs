@@ -13,24 +13,32 @@ namespace Toras.Core
     {
         private static int argCount = 1; // Records the number of arguments in args
 
-        public Parser() { }
-
-        /* Constructor that requires and input path */
+        /* Moves parsed file to specific directory based on parsed modifier.
+         * @param inputPath, path of the command line argument file
+         * @param modifier, int of the modifier used when parsing */
         public Parser(string inputPath, int modifier)
         {
+            string[] data = Loader.GetData();
             string fileName = GetFileName(inputPath); // Returns file name and extension (e.g. fileName.txt)
             string fileExtension = GetFileExtension(inputPath); // Retuns file extension (e.g. .txt)
             string fileSource = inputPath; // Source is inputPath
-            string fileDestination = GetFileDestination(modifier, fileExtension)+"/"+fileName; // Retuns file destination
             string argument = "(" + argCount + ") ";
+            string fileDestination = "";
+            string ftpAddress = data[8];
+
+            // Change fileDestination depending on FTP transfer or not.
+            if (modifier == 4)
+                fileDestination = ftpAddress + "/" + fileName; // Retuns file destination
+            else
+                fileDestination = GetFileDestination(modifier, fileExtension)+"/"+fileName; // Retuns file destination
 
             if (CanMove(modifier))
             {
 
                 try
                 {
-                    FileManager.Move(fileSource, fileDestination);
-                    FileManager.Log(fileName, fileSource, fileDestination);
+                    FileTransfer.Move(fileSource, fileName, fileDestination, modifier);
+                    FileTransfer.Log(fileName, fileSource, fileDestination);
                     Debug.Trace(argument + fileName + " -> " + fileDestination);
                 }
                 catch (IOException)
@@ -63,6 +71,10 @@ namespace Toras.Core
 
             // Alt Modifier
             if (modifier == 3 && data[6] == "1")
+                return true;
+
+            // Alt Modifier
+            if (modifier == 4)
                 return true;
 
             return false;
