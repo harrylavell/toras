@@ -67,7 +67,7 @@ namespace Toras.UI
 
             Ftp1_address.Text = data[8];
             Ftp1_username.Text = data[9];
-            Ftp1_password.Text = data[10];
+            Ftp1_password.Password = data[10];
 
 
 
@@ -110,7 +110,7 @@ namespace Toras.UI
         {
             data[8] = Ftp1_address.Text;
             data[9] = Ftp1_username.Text;
-            data[10] = Ftp1_password.Text;
+            data[10] = Ftp1_password.Password;
             FTP.TestConnection();
         }
 
