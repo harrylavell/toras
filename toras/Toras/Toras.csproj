@@ -117,7 +117,6 @@
     <Compile Include="Data\Loader.cs" />
     <Compile Include="Utilities\Debug.cs" />
     <Compile Include="Core\FileTransfer.cs" />
-    <Compile Include="Utilities\FTP.cs" />
     <Page Include="UI\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

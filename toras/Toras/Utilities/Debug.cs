@@ -39,6 +39,33 @@ namespace Toras.Utilities
             FileManager.WriteDebug(input); // Writes to debug.txt
         }
 
+        /* Prints and writes parsed string on new line to console and debug.txt respectively */
+        public static void Trace(string input, ConsoleColor color)
+        {
+            Console.ForegroundColor = color; // Change text color to green
+            Console.WriteLine(input); // Writes to Console
+            FileManager.WriteDebug(input); // Writes to debug.txt
+            Console.ForegroundColor = ConsoleColor.White; // Change text color to white
+        }
+
+        /* Prints and writes parsed string on new line to console and debug.txt respectively */
+        public static void TraceRed(string input)
+        {
+            Console.ForegroundColor = ConsoleColor.Red; // Change text color to green
+            Console.WriteLine(input); // Writes to Console
+            FileManager.WriteDebug(input); // Writes to debug.txt
+            Console.ForegroundColor = ConsoleColor.White; // Change text color to white
+        }
+
+        /* Prints and writes parsed string on new line to console and debug.txt respectively */
+        public static void TraceGreen(string input)
+        {
+            Console.ForegroundColor = ConsoleColor.Green; // Change text color to green
+            Console.WriteLine(input); // Writes to Console
+            FileManager.WriteDebug(input); // Writes to debug.txt
+            Console.ForegroundColor = ConsoleColor.White; // Change text color to white
+        }
+
         public static void ShowEnd()
         {
             Trace("=================");

@@ -11,8 +11,6 @@ namespace Toras.Core
 {
     public class File
     {
-        private static int argCount = 1; // Records the number of arguments in args
-
         private string fileName; // Stores file name and extension (e.g. fileName.txt)
         private string fileExtension; // Stores file extension (e.g. .txt)
         private string fileSource; // Stores the directory path of the file
@@ -21,14 +19,13 @@ namespace Toras.Core
         /* Moves parsed file to specific directory based on parsed modifier.
          * @param inputPath, path of the command line argument file
          * @param modifier, int of the modifier used when parsing */
-        public File(string inputPath, int modifier, int numberOfFiles)
+        public File(string inputPath, int modifier)
         {
             string[] data = Loader.GetData();
             fileName = GetFileName(inputPath); // Returns file name and extension (e.g. fileName.txt)
             fileExtension = GetFileExtension(inputPath); // Retuns file extension (e.g. .txt)
             fileSource = inputPath; // Source is inputPath
             fileDestination = GetFileDestination(modifier, fileExtension); // Stores the files transfer destination
-            string argument = "(" + argCount + ") ";
             string ftpAddress = data[8];
 
             // Change fileDestination depending on FTP transfer or not.
