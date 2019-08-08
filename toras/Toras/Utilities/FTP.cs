@@ -12,23 +12,6 @@ namespace Toras.Utilities
     public static class FTP
     {
 
-        public static void Init()
-        {
-            // prefix = ftp://
-
-            //string ftpAddress = 
-
-
-
-            // Get ftp addresses
-            // Get ftp credentials
-
-            // load into array
-            // 0 = address
-            // 1 = username
-            // 2 = password
-        }
-
         public static void Transfer(string filePath, string fileName)
         {
             string[] data = Loader.GetData();
@@ -42,7 +25,7 @@ namespace Toras.Utilities
 
             try {
                 Stream reqStream = request.GetRequestStream();
-                reqStream.Write(CreateByteArray(filePath), 0, CreateByteArray(filePath).Length);
+                reqStream.Write(CreateBufferArray(filePath), 0, CreateBufferArray(filePath).Length);
                 reqStream.Close();
             } catch (Exception e)
             {
@@ -53,12 +36,10 @@ namespace Toras.Utilities
 
         public static void TestConnection()
         {
-            // Check if parsed address is valid
 
-            // Check if connection can be made
         }
 
-        private static byte[] CreateByteArray(string path)
+        private static byte[] CreateBufferArray(string path)
         {
             FileStream stream = File.OpenRead(path);
             byte[] buffer = new byte[stream.Length];

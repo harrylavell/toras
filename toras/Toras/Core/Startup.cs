@@ -29,6 +29,7 @@ namespace Toras.Core
                 watch.Start();
 
                 Parse(args, KeyModifier.GetModifier());
+                FileTransfer.Transfer(false);
 
                 watch.Stop();
                 Debug.Trace($"Total Transfer Time: {watch.ElapsedMilliseconds}ms");
@@ -46,9 +47,7 @@ namespace Toras.Core
 
             // Iterate args, creating instance of Parser for each
             foreach (string path in args)
-            {
-                new Parser(path, modifier);
-            }
+                new File(path, KeyModifier.GetModifier(), args.Length);
         }
 
         private static void Init()

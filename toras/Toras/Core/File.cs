@@ -3,58 +3,49 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
+using System.Windows.Input;
 using Toras.Data;
 using Toras.Utilities;
 
 namespace Toras.Core
 {
-    class Parser
+    public class File
     {
         private static int argCount = 1; // Records the number of arguments in args
+
+        private string fileName; // Stores file name and extension (e.g. fileName.txt)
+        private string fileExtension; // Stores file extension (e.g. .txt)
+        private string fileSource; // Stores the directory path of the file
+        private string fileDestination; // Stores the file transfer destination
 
         /* Moves parsed file to specific directory based on parsed modifier.
          * @param inputPath, path of the command line argument file
          * @param modifier, int of the modifier used when parsing */
-        public Parser(string inputPath, int modifier)
+        public File(string inputPath, int modifier, int numberOfFiles)
         {
             string[] data = Loader.GetData();
-            string fileName = GetFileName(inputPath); // Returns file name and extension (e.g. fileName.txt)
-            string fileExtension = GetFileExtension(inputPath); // Retuns file extension (e.g. .txt)
-            string fileSource = inputPath; // Source is inputPath
+            fileName = GetFileName(inputPath); // Returns file name and extension (e.g. fileName.txt)
+            fileExtension = GetFileExtension(inputPath); // Retuns file extension (e.g. .txt)
+            fileSource = inputPath; // Source is inputPath
+            fileDestination = GetFileDestination(modifier, fileExtension); // Stores the files transfer destination
             string argument = "(" + argCount + ") ";
-            string fileDestination = "";
             string ftpAddress = data[8];
 
             // Change fileDestination depending on FTP transfer or not.
             if (modifier == 4)
                 fileDestination = ftpAddress + "/" + fileName; // Retuns file destination
             else
-                fileDestination = GetFileDestination(modifier, fileExtension)+"/"+fileName; // Retuns file destination
+                fileDestination = GetFileDestination(modifier, fileExtension) + "/" + fileName; // Retuns file destination
 
-            if (CanMove(modifier))
-            {
-
-                try
-                {
-                    FileTransfer.Move(fileSource, fileName, fileDestination, modifier);
-                    FileTransfer.Log(fileName, fileSource, fileDestination);
-                    Debug.Trace(argument + fileName + " -> " + fileDestination);
-                }
-                catch (IOException)
-                {
-                    Debug.Trace(argument + fileName + " -$ " + "File already exists!");
-                }
-
-            }
-
-            argCount++;
+            // Adds file to queue if the file is transferable
+            if (IsTransferable(modifier))
+                FileTransfer.AddToQueue(this);
         }
 
         /* Tests whether a file is allowed to be moved based on 
         * the current modifier and modifier settings.
         * return bool, true or false */
-        private static bool CanMove(int modifier)
+        public static bool IsTransferable(int modifier)
         {
             string[] data = Loader.GetData();
 
@@ -80,7 +71,7 @@ namespace Toras.Core
             return false;
         }
 
-        /* Retrieves the actual file name (file name.torrent) of the parsed
+        /* Retrieves the actual file name (fileName.torrent) of the parsed
          * file path.
          * @return fileName, the actual file name extracted from file path */
         private string GetFileName(string toGet)
@@ -100,44 +91,62 @@ namespace Toras.Core
             return fileName;
         }
 
-        private string GetFileExtension(string file)
+        /* Retrieves a file's extension from the file path.
+         * @return fileExtension, .torrent, .png, .jpg */
+        private string GetFileExtension(string filePath)
         {
             string fileExtension = "";
 
             // Iterates through parsed string starting from the last element
             // and adds the element to fileName until a '.' is reached
-            for (int i = file.Length - 1; i > 0; i--)
+            for (int i = filePath.Length - 1; i > 0; i--)
             {
-                if (file[i] == '.')
+                if (filePath[i] == '.')
                     break;
-                fileExtension += file[i]; // Add element to fileName
+                fileExtension += filePath[i]; // Add element to fileName
             }
 
-            fileExtension = Reverse(fileExtension); // Backwards string is corrected
-            return "." + fileExtension;
+            return "." + Reverse(fileExtension);
         }
 
+        /* Determines the transfer destination of the file based on
+         * the current modifier and file extension. 
+         * @param modifier, enabled key modifier 
+         * @param extension, file extension to test against
+         * @return destination, transfer destination for file */
         private string GetFileDestination(int modifier, string extension)
         {
+
+
             string[] data = Loader.GetData();
+            string destination = "";
+
+            
+
 
             if (modifier == 0)
-                return data[0];
+                destination = data[0];
 
             // Shift Modifier
             if (modifier == 1 && data[4] == "1")
-                return data[1];
+                destination = data[1];
 
             // Ctrl Modifier
             if (modifier == 2 && data[5] == "1")
-                return data[2];
+                destination = data[2];
 
             // Alt Modifier
             if (modifier == 3 && data[6] == "1")
-                return data[3];
+                destination = data[3];
 
-            return "";
+            // Every user-defined modifier increments total modifiers by 1
+            // Iterate through all define modifiers
+                // See if theres a match
+                    // if so, find what destination it's linked to, set it as current
+
+            return destination;
         }
+
 
         /* Converts parsed string into char array and reverses it.
          * @return, reversed string */
@@ -148,5 +157,10 @@ namespace Toras.Core
 
             return new string(charArray);
         }
+
+        public string GetFileName() { return fileName; }
+        public string GetFileExtension() { return fileExtension; }
+        public string GetFileSource() { return fileSource; }
+        public string GetFileDestination() { return fileDestination; }
     }
 }

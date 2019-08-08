@@ -12,8 +12,10 @@ namespace Toras.Core
     public static class KeyModifier
     {
 
+
         public static int GetModifier()
         {
+
             int activeModifier = -1;
 
             if (NoModifier())

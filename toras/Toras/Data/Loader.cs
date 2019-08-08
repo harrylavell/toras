@@ -10,6 +10,7 @@ namespace Toras.Data
     public static class Loader
     {
         private static string[] data;
+        private static List<string> applicationData { get { return applicationData; } }
 
         public static void Init()
         {
@@ -19,6 +20,7 @@ namespace Toras.Data
                 CreateData();
             else
                 LoadData();
+
         }
 
         /* Getter for other classes */
