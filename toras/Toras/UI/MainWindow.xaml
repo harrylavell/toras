@@ -17,8 +17,8 @@
                     <ColumnDefinition Width="40" />
                 </Grid.ColumnDefinitions>
 
-                <TextBox x:Name="Default_directory" Margin="0 0 5 0" Grid.Column="0" />
-                <Button x:Name="Default_directory_button" Click="Default_directory_click" Margin="0 0 0 0" Grid.Column="1" Content="..." />
+                <TextBox x:Name="DefaultDirectory" Margin="0 0 5 0" Grid.Column="0" />
+                <Button x:Name="DefaultDirectoryButton" Click="DefaultDirectory_click" Margin="0 0 0 0" Grid.Column="1" Content="..." />
             </Grid>
 
             <TextBlock Margin="0 0 0 3" Text="Modifiers" FontWeight="Bold" />
@@ -30,9 +30,9 @@
                     <ColumnDefinition Width="40" />
                 </Grid.ColumnDefinitions>
 
-                <CheckBox x:Name="Shift_check" Checked="Shift_checkbox_changed" Unchecked="Shift_checkbox_changed" Margin="0 3 5 0">Shift</CheckBox>
-                <TextBox x:Name="Shift_directory" IsEnabled="{Binding IsChecked, ElementName=Shift_check, Mode=OneWay}" Margin="0 0 5 0" Grid.Column="1" />
-                <Button x:Name="Shift_directory_button" Click="Shift_directory_click" IsEnabled="{Binding IsChecked, ElementName=Shift_check, Mode=OneWay}" Margin="0 0 0 0" Grid.Column="2" Content="..." />
+                <CheckBox x:Name="ShiftCheckbox" Checked="ShiftCheckbox_changed" Unchecked="ShiftCheckbox_changed" Margin="0 3 5 0">Shift</CheckBox>
+                <TextBox x:Name="ShiftDirectory" IsEnabled="{Binding IsChecked, ElementName=ShiftCheckbox, Mode=OneWay}" Margin="0 0 5 0" Grid.Column="1" />
+                <Button x:Name="ShiftDirectoryButton" Click="ShiftDirectory_click" IsEnabled="{Binding IsChecked, ElementName=ShiftCheckbox, Mode=OneWay}" Margin="0 0 0 0" Grid.Column="2" Content="..." />
             </Grid>
 
             <!-- Ctrl Directory -->
@@ -43,23 +43,23 @@
                     <ColumnDefinition Width="40" />
                 </Grid.ColumnDefinitions>
 
-                <CheckBox x:Name="Ctrl_check" Checked="Ctrl_checkbox_changed" Unchecked="Ctrl_checkbox_changed" Margin="0 3 5 0">Ctrl</CheckBox>
-                <TextBox x:Name="Ctrl_directory" IsEnabled="{Binding IsChecked, ElementName=Ctrl_check, Mode=OneWay}" Margin="0 0 5 0" Grid.Column="1" />
-                <Button x:Name="Ctrl_directory_button" Click="Ctrl_directory_click" IsEnabled="{Binding IsChecked, ElementName=Ctrl_check, Mode=OneWay}" Margin="0 0 0 0" Grid.Column="2" Content="..." />
+                <CheckBox x:Name="CtrlCheckbox" Checked="CtrlCheckbox_changed" Unchecked="CtrlCheckbox_changed" Margin="0 3 5 0">Ctrl</CheckBox>
+                <TextBox x:Name="CtrlDirectory" IsEnabled="{Binding IsChecked, ElementName=CtrlCheckbox, Mode=OneWay}" Margin="0 0 5 0" Grid.Column="1" />
+                <Button x:Name="CtrlDirectoryButton" Click="CtrlDirectory_click" IsEnabled="{Binding IsChecked, ElementName=CtrlCheckbox, Mode=OneWay}" Margin="0 0 0 0" Grid.Column="2" Content="..." />
             </Grid>
 
             <TextBlock Margin="0 0 0 3" Text="FTP Server" FontWeight="Bold" />
             <!-- FTP Server #1 -->
             <Grid Margin="0 0 0 5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="75" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="60" />
                 </Grid.ColumnDefinitions>
 
-                <CheckBox x:Name="Ftp1_check" Checked="Ftp1_checkbox_changed" Unchecked="Ftp1_checkbox_changed" Margin="0 3 5 0">F</CheckBox>
-                <TextBox x:Name="Ftp1_address" IsEnabled="{Binding IsChecked, ElementName=Ftp1_check, Mode=OneWay}" Margin="0 0 5 0" Grid.Column="1" />
-                <Button x:Name="Ftp1_test_button" Click="Ftp1_test_click" IsEnabled="{Binding IsChecked, ElementName=Ftp1_check, Mode=OneWay}" Margin="0 0 0 0" Grid.Column="2" Content="Test" />
+                <CheckBox x:Name="FtpCheckbox" Checked="FtpCheckbox_changed" Unchecked="FtpCheckbox_changed" Margin="0 3 5 0">Ctrl+Shift</CheckBox>
+                <TextBox x:Name="FtpAddress" IsEnabled="{Binding IsChecked, ElementName=FtpCheckbox, Mode=OneWay}" Margin="0 0 5 0" Grid.Column="1" />
+                <Button x:Name="FtpConfirmButton" Click="FtpConfirm_click" IsEnabled="{Binding IsChecked, ElementName=FtpCheckbox, Mode=OneWay}" Margin="0 0 0 0" Grid.Column="2" Content="Confirm" />
             </Grid>
 
             <Grid Margin="0 0 0 10">
@@ -73,9 +73,9 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Margin="0 0 0 2" Text="Username:" Grid.Column="1" />
-                <TextBox x:Name="Ftp1_username" IsEnabled="{Binding IsChecked, ElementName=Ftp1_check, Mode=OneWay}" Margin="0 0 5 0" Grid.Column="2" />
+                <TextBox x:Name="FtpUsername" IsEnabled="{Binding IsChecked, ElementName=FtpCheckbox, Mode=OneWay}" Margin="0 0 5 0" Grid.Column="2" />
                 <TextBlock Margin="0 0 0 2" Text="Password:" Grid.Column="3" />
-                <PasswordBox x:Name="Ftp1_password" IsEnabled="{Binding IsChecked, ElementName=Ftp1_check, Mode=OneWay}" Margin="0 0 5 0" PasswordChar="*" Grid.Column="4" />
+                <PasswordBox x:Name="FtpPassword" IsEnabled="{Binding IsChecked, ElementName=FtpCheckbox, Mode=OneWay}" Margin="0 0 5 0" PasswordChar="*" Grid.Column="4" />
                
             </Grid>
             
@@ -88,9 +88,9 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Button x:Name="Ok_button" Click="Ok_button_click" Margin="0 0 5 0" Grid.Column="1" Content="OK" />
-                <Button x:Name="Cancel_button" Click="Cancel_button_click" Margin="5 0 5 0" Grid.Column="2" Content="Cancel" />
-                <Button x:Name="Apply_button" Click="Apply_button_click" Margin="5 0 0 0" Grid.Column="3" Content="Apply" />
+                <Button x:Name="OkButton" Click="OkButton_click" Margin="0 0 5 0" Grid.Column="1" Content="OK" />
+                <Button x:Name="CancelButton" Click="CancelButton_click" Margin="5 0 5 0" Grid.Column="2" Content="Cancel" />
+                <Button x:Name="ApplyButton" Click="ApplyButton_click" Margin="5 0 0 0" Grid.Column="3" Content="Apply" />
             </Grid>
 
         </StackPanel>

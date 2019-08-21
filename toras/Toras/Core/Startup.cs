@@ -11,50 +11,52 @@ namespace Toras.Core
 {
     class Startup
     {
-        private static bool debug = true;
-
         [STAThread]
         static void Main(string[] args)
         {
-            Init();
+            Initialise();
 
-            // Starts application UI if no arguments are found (e.g. no input files)
+            // Starts application GUI if no arguments are found (e.g. no input files)
             if (args == null || args.Length == 0)
                 App.Main(); // Run App.cs main method
-
-            // Calls Parse for file transfer to determined location
             else
-            {
-                var watch = new System.Diagnostics.Stopwatch(); // Used for recording code execution time
-                watch.Start();
+                InitTransfer(args); // Transfer files within args to their destination
+        }
 
-                Parse(args, KeyModifier.GetModifier());
-                FileTransfer.Transfer(true);
+        /* Run initialisation code for resetting and preparing data */
+        private static void Initialise()
+        {
+            Debug.Init(true);
+            FileManager.Init();
+            Loader.Init();
+        }
 
-                watch.Stop();
-                Debug.Trace($"Total Transfer Time: {watch.ElapsedMilliseconds}ms");
-            }
+        /* Transfers all files (paths) found within args to their designated
+         * file destination based on user-defined directories and key modifiers. */
+        private static void InitTransfer(string[] args)
+        {
+            var watch = new System.Diagnostics.Stopwatch(); // Used for recording code execution time
+            watch.Start();
 
-            if (debug)
+            Parse(args, KeyModifier.GetModifier());
+            FileTransfer.Transfer(true);
+
+            watch.Stop();
+            Debug.Trace($"Total Transfer Time: {watch.ElapsedMilliseconds}ms");
+
+            if (true)
                 Debug.ShowEnd();
         }
 
-        /* Iterates through args, creating a new Parser instance
+        /* Iterates through args, creating a new File instance
          * for each element. */
         private static void Parse(string[] args, int modifier)
         {
-            Debug.Trace("Command Line Arguments: " + "Arguments = " + args.Length + " Modifier = " + modifier);
+            Debug.Trace($"Command Line Arguments: Arguments = {args.Length} Modifier = {modifier}");
 
-            // Iterate args, creating instance of Parser for each
+            // Iterate args, creating instance of File for each
             foreach (string path in args)
                 new File(path, KeyModifier.GetModifier());
-        }
-
-        private static void Init()
-        {
-            Debug.Init(debug);
-            FileManager.Init();
-            Loader.Init();
         }
 
     }

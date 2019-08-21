@@ -13,11 +13,11 @@ namespace Toras.Core
 
     public static class FileTransfer
     {
-        private struct Ftp
+        public struct Ftp
         {
-            public static string address;
-            public static string username;
-            public static string password;
+            public static string Address { get; set; }
+            public static string Username { get; set; }
+            public static string Password { get; set; }
         }
 
         private static List<File> fileQueue = new List<File>(); // Stores all files to be transferred
@@ -44,20 +44,20 @@ namespace Toras.Core
             // Iterate through fileQueue list, moving each file to destination
             foreach (File file in fileQueue)
             {
-                string name = file.GetFileName(); // Stores the name of the current file
-                string source = file.GetFileSource(); // Stores the source directory path of the current file
-                string destination = file.GetFileDestination(); // Stores the desired destination of the current file
-                string argument = "(" + fileCounter + ") "; // Indicates the file's posititon within queue
+                string name = file.Name; // Stores the name of the current file
+                string source = file.Source; // Stores the source directory path of the current file
+                string destination = file.Destination; // Stores the desired destination of the current file
+                string argument = "(" + fileCounter + ")"; // Indicates the file's posititon within queue
 
                 try
                 {
                     FileManager.Move(source, destination); // Move source file to destination
                     FileManager.Log(name, source, destination); // Log transfer record to file
-                    Debug.TraceGreen(argument + name + " -> " + destination);
+                    Debug.TraceGreen($"{argument} {name} -> {destination}");
                 }
                 catch (System.IO.IOException)
                 {
-                    Debug.TraceRed(argument + name + " -$ " + "File already exists!");
+                    Debug.TraceGreen($"{argument} {name} -$ File already exists!");
                 }
                 fileCounter++; // Increment file counter
             }
@@ -66,18 +66,18 @@ namespace Toras.Core
         // Transfers files to an FTP server
         private static void FtpTransfer()
         {
-            Ftp.address = "ftp://192.168.1.2/";
-            Ftp.username = "";
-            Ftp.password = "";
+            Ftp.Address = "ftp://192.168.1.2/";
+            Ftp.Username = "";
+            Ftp.Password = "";
 
             foreach (File file in fileQueue)
             {
-                string name = file.GetFileName(); // Stores the name of the current file
-                string argument = "(" + fileCounter + ") "; // Indicates the file's posititon within queue
+                string name = file.Name; // Stores the name of the current file
+                string argument = "(" + fileCounter + ")"; // Indicates the file's posititon within queue
 
                 // Setup FTP connection
-                FtpWebRequest request = (FtpWebRequest)FtpWebRequest.Create(Ftp.address + "/" + name);
-                request.Credentials = new NetworkCredential(Ftp.username, Ftp.password); // FTP Server credentials
+                FtpWebRequest request = (FtpWebRequest)FtpWebRequest.Create(Ftp.Address + "/" + name);
+                request.Credentials = new NetworkCredential(Ftp.Username, Ftp.Password); // FTP Server credentials
                 request.UsePassive = true;
                 request.UseBinary = true;
 
@@ -98,7 +98,7 @@ namespace Toras.Core
                     {
                         Stream reqStream = request.GetRequestStream();
                         reqStream.Write(fileBuffer, 0, fileBuffer.Length);
-                        Debug.TraceGreen(argument + name + " -> " + Ftp.address);
+                        Debug.TraceGreen($"{argument} {name} -> {Ftp.Address}");
                         reqStream.Close();
                     }
                     catch (WebException we)
@@ -116,8 +116,8 @@ namespace Toras.Core
         /* Sends request to FTP server to check if file exists before attempting to transfer it */
         private static bool FtpFileExists(string argument, string name)
         {
-            FtpWebRequest request = (FtpWebRequest)FtpWebRequest.Create(Ftp.address + "/" + name);
-            request.Credentials = new NetworkCredential(Ftp.username, Ftp.password); // FTP Server credentials
+            FtpWebRequest request = (FtpWebRequest)FtpWebRequest.Create(Ftp.Address + "/" + name);
+            request.Credentials = new NetworkCredential(Ftp.Username, Ftp.Password); // FTP Server credentials
             request.Method = WebRequestMethods.Ftp.GetFileSize;
 
             if (fileCounter < fileQueue.Count)
@@ -128,7 +128,7 @@ namespace Toras.Core
             try
             {
                 request.GetResponse();
-                Debug.TraceRed(argument + name + " -$ " + "File already exists!");
+                Debug.TraceGreen($"{argument} {name} -$ File already exists!");
                 return true;
             }
             catch (WebException ex)
@@ -144,7 +144,7 @@ namespace Toras.Core
          * @return buffer, Byte[] to be transferred */
         private static byte[] CreateBufferArray(File file)
         {
-            FileStream stream = System.IO.File.OpenRead(file.GetFileSource());
+            FileStream stream = System.IO.File.OpenRead(file.Source);
             byte[] buffer = new byte[stream.Length];
 
             stream.Read(buffer, 0, buffer.Length);

@@ -13,21 +13,21 @@ namespace Toras.Utilities
     public static class FileManager
     {
         // Stores the path of the data.txt file used throughout the program
-        private static readonly string dataPath = Application.StartupPath + "/" + "data.txt";
-        private static readonly string debugPath = Application.StartupPath + "/" + "debug.txt";
-        private static readonly string transfersPath = Application.StartupPath + "/" + "transfers.txt";
+        public static string DataPath { get; } = Application.StartupPath + "/" + "data.txt";
+        public static string DebugPath { get; } = Application.StartupPath + "/" + "debug.txt";
+        public static string LogPath { get; } = Application.StartupPath + "/" + "log.txt";
 
         /* FileManager initialisation */
         public static void Init()
         {
-            File.Delete(debugPath); // Delete debug.txt
+            File.Delete(DebugPath); // Delete debug.txt
         }
 
         /* Writes parsed string[] data to file.
          * @param string[], directory paths & modifier settings */
         public static void Save(string[] data)
         {   
-            File.WriteAllLines(dataPath, data); // Writes output array to data.txt
+            File.WriteAllLines(DataPath, data); // Writes output array to data.txt
         }
 
         /* Load data file, reading all data to string[].
@@ -35,8 +35,8 @@ namespace Toras.Utilities
         public static string[] Load()
         {
             // If file exists, load it
-            if (File.Exists(dataPath))
-                return File.ReadAllLines(dataPath);
+            if (File.Exists(DataPath))
+                return File.ReadAllLines(DataPath);
             return new string[Load().Length];
         }
 
@@ -53,7 +53,7 @@ namespace Toras.Utilities
          * @return true, if data.txt not found */
         public static bool DataExists()
         {
-            if (File.Exists(dataPath))
+            if (File.Exists(DataPath))
                 return false;
             return true;
         }
@@ -61,17 +61,17 @@ namespace Toras.Utilities
         /* Write parameter string to debug.txt */
         public static void WriteDebug(string output)
         {
-            File.AppendAllText(debugPath, output + Environment.NewLine);
+            File.AppendAllText(DebugPath, output + Environment.NewLine);
         }
 
         /* Records a log of the file transfer to debug.txt */
         public static void Log(string fileName, string source, string destination)
         {
-            File.AppendAllText(transfersPath, DateTime.Now + Environment.NewLine);
-            File.AppendAllText(transfersPath, "File Name: " + fileName + Environment.NewLine);
-            File.AppendAllText(transfersPath, "Source: " + source + Environment.NewLine);
-            File.AppendAllText(transfersPath, "Destination: " + destination + Environment.NewLine);
-            File.AppendAllText(transfersPath, Environment.NewLine);
+            File.AppendAllText(LogPath, DateTime.Now + Environment.NewLine);
+            File.AppendAllText(LogPath, "File Name: " + fileName + Environment.NewLine);
+            File.AppendAllText(LogPath, "Source: " + source + Environment.NewLine);
+            File.AppendAllText(LogPath, "Destination: " + destination + Environment.NewLine);
+            File.AppendAllText(LogPath, Environment.NewLine);
         }
 
     }

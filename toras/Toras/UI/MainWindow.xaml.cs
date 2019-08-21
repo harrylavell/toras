@@ -47,119 +47,123 @@ namespace Toras.UI
 
             // Populate textboxes
             if (!data[0].Equals("No Directory")) // Default
-                Default_directory.Text = data[0];
+                DefaultDirectory.Text = data[0];
             if (!data[1].Equals("No Directory")) // Shift
-                Shift_directory.Text = data[1];
+                ShiftDirectory.Text = data[1];
             if (!data[2].Equals("No Directory")) // Ctrl
-                Ctrl_directory.Text = data[2];
+                CtrlDirectory.Text = data[2];
 
 
             // Correct checkboxes
             if (data[4].Equals("1"))
-                Shift_check.IsChecked = true;
+                ShiftCheckbox.IsChecked = true;
             else
-                Shift_check.IsChecked = false;
+                ShiftCheckbox.IsChecked = false;
 
             if (data[5].Equals("1"))
-                Ctrl_check.IsChecked = true;
+                CtrlCheckbox.IsChecked = true;
             else
-                Ctrl_check.IsChecked = false;
+                CtrlCheckbox.IsChecked = false;
 
-            Ftp1_address.Text = data[8];
-            Ftp1_username.Text = data[9];
-            Ftp1_password.Password = data[10];
-
-
+            FtpAddress.Text = data[8];
+            FtpUsername.Text = data[9];
+            FtpPassword.Password = data[10];
 
             // Deactive Apply Button
-            Apply_button.IsEnabled = false;
+            ApplyButton.IsEnabled = false;
         }
 
         /* Open folder dialog box and adds user selected directory to data array */
-        private void Default_directory_click(object sender, RoutedEventArgs e)
+        private void DefaultDirectory_click(object sender, RoutedEventArgs e)
         {
             string defaultPath = DirectoryManager.ChooseFileDirectory(); // Retuns path of chosen directory
             data[0] = defaultPath; // Sets index 0 of data to default directory path
-            Default_directory.Text = data[0]; // Sets text box to path
+            DefaultDirectory.Text = data[0]; // Sets text box to path
 
-            if (Default_directory.Text != "")
-                Apply_button.IsEnabled = true;
+            if (DefaultDirectory.Text != "")
+                ResetApplyState();
         }
 
-        private void Shift_directory_click(object sender, RoutedEventArgs e)
+        private void ShiftDirectory_click(object sender, RoutedEventArgs e)
         {
             string shiftPath = DirectoryManager.ChooseFileDirectory(); // Retuns path of chosen directory
             data[1] = shiftPath; // Sets index 1 of data to shift directory path
-            Shift_directory.Text = data[1]; // Sets text box to path
+            ShiftDirectory.Text = data[1]; // Sets text box to path
 
-            if (Shift_directory.Text != "")
-                Apply_button.IsEnabled = true;
+            if (ShiftDirectory.Text != "")
+                ResetApplyState();
         }
 
-        private void Ctrl_directory_click(object sender, RoutedEventArgs e)
+        private void CtrlDirectory_click(object sender, RoutedEventArgs e)
         {
             string ctrlPath = DirectoryManager.ChooseFileDirectory(); // Retuns path of chosen directory
             data[2] = ctrlPath; // Sets index 2 of data to ctrl directory path
-            Ctrl_directory.Text = data[2]; // Sets text box to path
+            CtrlDirectory.Text = data[2]; // Sets text box to path
 
-            if (Ctrl_directory.Text != "")
-                Apply_button.IsEnabled = true;
+            if (CtrlDirectory.Text != "")
+                ResetApplyState();
         }
 
-        private void Ftp1_test_click(object sender, RoutedEventArgs e)
+        private void FtpConfirm_click(object sender, RoutedEventArgs e)
         {
-            data[8] = Ftp1_address.Text;
-            data[9] = Ftp1_username.Text;
-            data[10] = Ftp1_password.Password;
+            data[8] = FtpAddress.Text;
+            data[9] = FtpUsername.Text;
+            data[10] = FtpPassword.Password;
         }
 
-        private void Shift_checkbox_changed(object sender, RoutedEventArgs e)
+        private void ShiftCheckbox_changed(object sender, RoutedEventArgs e)
         {
-            if (Shift_check.IsChecked == true)
+            if (ShiftCheckbox.IsChecked == true)
                 data[4] = "1"; // True
             else
                 data[4] = "0"; // False
-            Apply_button.IsEnabled = true;
+            ResetApplyState();
         }
 
-        private void Ctrl_checkbox_changed(object sender, RoutedEventArgs e)
+        private void CtrlCheckbox_changed(object sender, RoutedEventArgs e)
         {
-            if (Ctrl_check.IsChecked == true)
+            if (CtrlCheckbox.IsChecked == true)
                 data[5] = "1"; // True
             else
                 data[5] = "0"; // False
-            Apply_button.IsEnabled = true;
+            ResetApplyState();
         }
 
-        private void Ftp1_checkbox_changed(object sender, RoutedEventArgs e)
+        private void FtpCheckbox_changed(object sender, RoutedEventArgs e)
         {
-            if (Ftp1_check.IsChecked == true)
+            if (FtpCheckbox.IsChecked == true)
                 data[6] = "1"; // True
             else
                 data[5] = "0"; // False
-            Apply_button.IsEnabled = true;
+            ResetApplyState();
         }
 
         /* Saves directory paths to file */
-        private void Apply_button_click(object sender, RoutedEventArgs e)
+        private void ApplyButton_click(object sender, RoutedEventArgs e)
         {
             FileManager.Save(data); // Saves directory paths to file
             ConfirmChanges();
-            Apply_button.IsEnabled = false;
+            ApplyButton.IsEnabled = false;
         }
 
         /* Exits the application without saving */
-        private void Cancel_button_click(object sender, RoutedEventArgs e)
+        private void CancelButton_click(object sender, RoutedEventArgs e)
         {
             App.Current.Shutdown();
         }
 
         /* Exits the application after saving */
-        private void Ok_button_click(object sender, RoutedEventArgs e)
+        private void OkButton_click(object sender, RoutedEventArgs e)
         {
             FileManager.Save(data); // Saves directory paths to file
             ConfirmChanges();
             App.Current.Shutdown();
+        }
+        
+        /* Resets the visibility of the 'Apply' button from visible to shaded. */
+        private void ResetApplyState()
+        {
+            ApplyButton.IsEnabled = true;
         }
 
         private void ConfirmChanges()
@@ -168,10 +172,11 @@ namespace Toras.UI
             Debug.Trace("Debug Initialised");
             Debug.Trace("=================");
 
-            Debug.Trace("Directory:");
+            Debug.Trace("Destinations:");
             Debug.Trace("Default Directory -> "+data[0]);
             Debug.Trace("Shift Directory -> " + data[1]);
             Debug.Trace("Ctrl Directory -> " + data[2]);
+            Debug.Trace("FTP Address -> " + data[2]);
 
             Debug.Trace("\nModifiers:");
             if (data[4] == "1")
@@ -183,6 +188,11 @@ namespace Toras.UI
                 Debug.Trace("Ctrl Modifier -> Enabled");
             else
                 Debug.Trace("Ctrl Modifier -> Disabled");
+
+            if (data[6] == "1")
+                Debug.Trace("FTP Modifier -> Enabled");
+            else
+                Debug.Trace("FTP Modifier -> Disabled");
 
             Debug.Trace();
         }
