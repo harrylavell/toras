@@ -7,13 +7,14 @@ using System.IO;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Toras.Data;
 
 namespace Toras.Utilities
 {
     public static class FileManager
     {
         // Stores the path of the data.txt file used throughout the program
-        public static string DataPath { get; } = Application.StartupPath + "/" + "data.txt";
+        public static string DataPath { get; } = Application.StartupPath + "/" + "data.bin";
         public static string DebugPath { get; } = Application.StartupPath + "/" + "debug.txt";
         public static string LogPath { get; } = Application.StartupPath + "/" + "log.txt";
 
@@ -23,21 +24,16 @@ namespace Toras.Utilities
             File.Delete(DebugPath); // Delete debug.txt
         }
 
-        /* Writes parsed string[] data to file.
-         * @param string[], directory paths & modifier settings */
-        public static void Save(string[] data)
-        {   
-            File.WriteAllLines(DataPath, data); // Writes output array to data.txt
+        /* Saves data to file via serialization */
+        public static void Save()
+        {
+            Loader.Serialize(); // Saves binary data to file
         }
 
-        /* Load data file, reading all data to string[].
-         * @return string[], contains directory paths and modifier settings */
-        public static string[] Load()
+        /* Loads data from file via deserialization */
+        public static void Load()
         {
-            // If file exists, load it
-            if (File.Exists(DataPath))
-                return File.ReadAllLines(DataPath);
-            return new string[Load().Length];
+            Loader.Deserialize(); // Reads binary data from file
         }
 
         /* Moves the parsed source file to the parsed destination.
@@ -49,11 +45,11 @@ namespace Toras.Utilities
         }
 
         /* Checks if data.txt exists within home directory
-         * @return false, if data.txt found
-         * @return true, if data.txt not found */
-        public static bool DataExists()
+         * @return false, if file found
+         * @return true, if file not found */
+        public static bool FileExists(string filePath)
         {
-            if (File.Exists(DataPath))
+            if (File.Exists(filePath))
                 return false;
             return true;
         }

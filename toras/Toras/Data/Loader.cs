@@ -4,64 +4,79 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Toras.Utilities;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 namespace Toras.Data
 {
     public static class Loader
     {
-        private static string[] data;
-        private static List<string> applicationData { get { return applicationData; } }
+        private static UserData userData = new UserData();
 
         public static void Init()
         {
-            // Setup default data for data.txt if user's first session
-            // otherwise, load data from file.
-            if (FirstSession())
-                CreateData();
-            else
-                LoadData();
-
+            // Setup default user data or load from file
+            if (UserFirstSession())
+            {
+                userData.SetDefaultData();
+                Serialize();
+            } else
+            {
+                Deserialize();
+            }
         }
 
-        /* Getter for other classes */
-        public static string[] GetData()
+        /* Deletes existing data.bin file (if exists) and replaces it with new user data. */
+        public static void Serialize()
         {
-            return data;
+            File.Delete(FileManager.DataPath); // Delete data.bin
+            Stream stream = File.OpenWrite(FileManager.DataPath);
+
+            // Format userData as binary
+            BinaryFormatter formatter = new BinaryFormatter();
+            formatter.Serialize(stream, userData);
+
+            stream.Flush();
+            stream.Close();
+            stream.Dispose();
+        }
+
+        /* Loads user data from data.bin */
+        public static void Deserialize()
+        {
+            // Create stream to add UserData to
+            FileStream fstream = File.Open(FileManager.DataPath, FileMode.Open);
+
+            // Format UserData as binary
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            try
+            {
+                object obj = formatter.Deserialize(fstream);
+                userData = (UserData)obj;
+            }
+            catch (Exception e)
+            {
+                Debug.Trace(e.ToString());
+            }
+
+            fstream.Flush();
+            fstream.Close();
+            fstream.Dispose();
+        }
+
+        public static UserData GetUserData()
+        {
+            return userData;
         }
 
         /* Checks whether data.txt exists. 
          * @return true, if data.txt not found
          * @return false, if data.txt found */
-        private static bool FirstSession()
+        private static bool UserFirstSession()
         {
-            return FileManager.DataExists();
-        }
-
-        /* Creates default data and saves it to file */
-        private static void CreateData()
-        {
-            data = new string[11];
-            data[0] = "No Directory"; // Default Directory
-            data[1] = "No Directory"; // Shift Directory
-            data[2] = "No Directory"; // Ctrl Directory
-            data[3] = "No Directory"; // Alt Directory
-            data[4] = "0"; // Shift Checkbox
-            data[5] = "0"; // Ctrl Checkbox
-            data[6] = "0"; // Alt Checkbox
-            data[7] = "100"; // Loading Time
-            data[8] = ""; // FTP Address
-            data[9] = ""; // FTP Username
-            data[10] = ""; // FTP Password
-            FileManager.Save(data); // Writes new data to file
-
-            Debug.Trace("User's First Session: Creating data file");
-        }
-
-        /* Loads in saved data and stores it within data array */
-        private static void LoadData()
-        {
-            data = new string[FileManager.Load().Length]; // Allocated data the required size to store application data
-            data = FileManager.Load();
+            return FileManager.FileExists(FileManager.DataPath);
         }
 
     }

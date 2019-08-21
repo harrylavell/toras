@@ -116,6 +116,7 @@
   <ItemGroup>
     <Compile Include="Core\File.cs" />
     <Compile Include="Data\Loader.cs" />
+    <Compile Include="Data\UserData.cs" />
     <Compile Include="Utilities\Debug.cs" />
     <Compile Include="Core\FileTransfer.cs" />
     <Page Include="UI\MainWindow.xaml">

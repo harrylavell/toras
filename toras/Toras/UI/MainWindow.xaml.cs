@@ -23,10 +23,9 @@ namespace Toras.UI
     /// </summary>
     public partial class MainWindow : Window
     {
-
         private string title = "Toras";
         private string version = " " + "1.0.0";
-        private string[] data; // 0-3 (data) & 4-6 (Checkbox Flags)
+        private static UserData userData = Loader.GetUserData();
 
         public MainWindow()
         {
@@ -38,36 +37,25 @@ namespace Toras.UI
             base.Title = title + version;
             base.WindowStartupLocation = WindowStartupLocation.CenterScreen; // Center Window
 
-            data = Loader.GetData();
             LoadData();
         }
 
         private void LoadData()
         {
+            // Populate Textboxes
+            DefaultDirectory.Text = userData.DefaultDirectory;
+            ShiftDirectory.Text = userData.ShiftDirectory;
+            CtrlDirectory.Text = userData.CtrlDirectory;
 
-            // Populate textboxes
-            if (!data[0].Equals("No Directory")) // Default
-                DefaultDirectory.Text = data[0];
-            if (!data[1].Equals("No Directory")) // Shift
-                ShiftDirectory.Text = data[1];
-            if (!data[2].Equals("No Directory")) // Ctrl
-                CtrlDirectory.Text = data[2];
+            // Correct Checkboxes
+            ShiftCheckbox.IsChecked = userData.ShiftCheckbox;
+            CtrlCheckbox.IsChecked = userData.CtrlCheckbox;
+            FtpCheckbox.IsChecked = userData.FtpCheckbox;
 
-
-            // Correct checkboxes
-            if (data[4].Equals("1"))
-                ShiftCheckbox.IsChecked = true;
-            else
-                ShiftCheckbox.IsChecked = false;
-
-            if (data[5].Equals("1"))
-                CtrlCheckbox.IsChecked = true;
-            else
-                CtrlCheckbox.IsChecked = false;
-
-            FtpAddress.Text = data[8];
-            FtpUsername.Text = data[9];
-            FtpPassword.Password = data[10];
+            // Load Ftp information
+            FtpAddress.Text = userData.FtpAddress;
+            FtpUsername.Text = userData.FtpUsername;
+            FtpPassword.Password = userData.FtpPassword;
 
             // Deactive Apply Button
             ApplyButton.IsEnabled = false;
@@ -77,8 +65,7 @@ namespace Toras.UI
         private void DefaultDirectory_click(object sender, RoutedEventArgs e)
         {
             string defaultPath = DirectoryManager.ChooseFileDirectory(); // Retuns path of chosen directory
-            data[0] = defaultPath; // Sets index 0 of data to default directory path
-            DefaultDirectory.Text = data[0]; // Sets text box to path
+            DefaultDirectory.Text = userData.DefaultDirectory = defaultPath; // Sets user data and textbox to defaultPath
 
             if (DefaultDirectory.Text != "")
                 ResetApplyState();
@@ -87,8 +74,7 @@ namespace Toras.UI
         private void ShiftDirectory_click(object sender, RoutedEventArgs e)
         {
             string shiftPath = DirectoryManager.ChooseFileDirectory(); // Retuns path of chosen directory
-            data[1] = shiftPath; // Sets index 1 of data to shift directory path
-            ShiftDirectory.Text = data[1]; // Sets text box to path
+            ShiftDirectory.Text = userData.ShiftDirectory = shiftPath; // Sets user data and textbox to shiftPath
 
             if (ShiftDirectory.Text != "")
                 ResetApplyState();
@@ -97,8 +83,7 @@ namespace Toras.UI
         private void CtrlDirectory_click(object sender, RoutedEventArgs e)
         {
             string ctrlPath = DirectoryManager.ChooseFileDirectory(); // Retuns path of chosen directory
-            data[2] = ctrlPath; // Sets index 2 of data to ctrl directory path
-            CtrlDirectory.Text = data[2]; // Sets text box to path
+            CtrlDirectory.Text = userData.CtrlDirectory = ctrlPath; // Sets user data and textbox to ctrlPath
 
             if (CtrlDirectory.Text != "")
                 ResetApplyState();
@@ -106,43 +91,42 @@ namespace Toras.UI
 
         private void FtpConfirm_click(object sender, RoutedEventArgs e)
         {
-            data[8] = FtpAddress.Text;
-            data[9] = FtpUsername.Text;
-            data[10] = FtpPassword.Password;
+            userData.FtpAddress = FtpAddress.Text;
+            userData.FtpUsername = FtpUsername.Text;
+            userData.FtpPassword = FtpPassword.Password;
         }
 
         private void ShiftCheckbox_changed(object sender, RoutedEventArgs e)
         {
             if (ShiftCheckbox.IsChecked == true)
-                data[4] = "1"; // True
+                userData.ShiftCheckbox = true; // True
             else
-                data[4] = "0"; // False
+                userData.ShiftCheckbox = false; // False
             ResetApplyState();
         }
 
         private void CtrlCheckbox_changed(object sender, RoutedEventArgs e)
         {
             if (CtrlCheckbox.IsChecked == true)
-                data[5] = "1"; // True
+                userData.CtrlCheckbox = true; // True
             else
-                data[5] = "0"; // False
+                userData.CtrlCheckbox = false; // False
             ResetApplyState();
         }
 
         private void FtpCheckbox_changed(object sender, RoutedEventArgs e)
         {
             if (FtpCheckbox.IsChecked == true)
-                data[6] = "1"; // True
+                userData.FtpCheckbox = true; // True
             else
-                data[5] = "0"; // False
+                userData.FtpCheckbox = false; // False
             ResetApplyState();
         }
 
         /* Saves directory paths to file */
         private void ApplyButton_click(object sender, RoutedEventArgs e)
         {
-            FileManager.Save(data); // Saves directory paths to file
-            ConfirmChanges();
+            FileManager.Save(); // Saves directory paths to file
             ApplyButton.IsEnabled = false;
         }
 
@@ -155,8 +139,7 @@ namespace Toras.UI
         /* Exits the application after saving */
         private void OkButton_click(object sender, RoutedEventArgs e)
         {
-            FileManager.Save(data); // Saves directory paths to file
-            ConfirmChanges();
+            FileManager.Save(); // Saves directory paths to file
             App.Current.Shutdown();
         }
         
@@ -166,35 +149,6 @@ namespace Toras.UI
             ApplyButton.IsEnabled = true;
         }
 
-        private void ConfirmChanges()
-        {
-            Console.Clear();
-            Debug.Trace("Debug Initialised");
-            Debug.Trace("=================");
 
-            Debug.Trace("Destinations:");
-            Debug.Trace("Default Directory -> "+data[0]);
-            Debug.Trace("Shift Directory -> " + data[1]);
-            Debug.Trace("Ctrl Directory -> " + data[2]);
-            Debug.Trace("FTP Address -> " + data[2]);
-
-            Debug.Trace("\nModifiers:");
-            if (data[4] == "1")
-                Debug.Trace("Shift Modifier -> Enabled");
-            else
-                Debug.Trace("Shift Modifier -> Disabled");
-
-            if (data[5] == "1")
-                Debug.Trace("Ctrl Modifier -> Enabled");
-            else
-                Debug.Trace("Ctrl Modifier -> Disabled");
-
-            if (data[6] == "1")
-                Debug.Trace("FTP Modifier -> Enabled");
-            else
-                Debug.Trace("FTP Modifier -> Disabled");
-
-            Debug.Trace();
-        }
     }
 }

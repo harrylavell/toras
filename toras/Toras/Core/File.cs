@@ -17,6 +17,7 @@ namespace Toras.Core
         public string Destination { get; }
 
         private static int modifier;
+        private static UserData userData = Loader.GetUserData();
 
         /* Moves parsed file to specific directory based on parsed modifier.
          * @param inputPath, path of the command line argument file
@@ -41,25 +42,19 @@ namespace Toras.Core
         * return bool, true or false */
         private static bool IsTransferable()
         {
-            string[] data = Loader.GetData();
-
             if (modifier == 0)
                 return true;
 
             // Shift Modifier
-            if (modifier == 1 && data[4] == "1")
+            if (modifier == 1 && userData.ShiftCheckbox == true)
                 return true;
 
             // Ctrl Modifier
-            if (modifier == 2 && data[5] == "1")
+            if (modifier == 2 && userData.CtrlCheckbox == true)
                 return true;
 
-            // Alt Modifier
-            if (modifier == 3 && data[6] == "1")
-                return true;
-
-            // Alt Modifier
-            if (modifier == 4)
+            // Shift+Ctrl Modifier
+            if (modifier == 4 && userData.FtpCheckbox == true)
                 return true;
 
             return false;
@@ -110,22 +105,21 @@ namespace Toras.Core
          * @return destination, transfer destination for file */
         private string GetFileDestination()
         {
-            string[] data = Loader.GetData();
             string destination = "";
 
             // Modifier is local directory modifier
             if (modifier < 4)
             {
                 if (modifier == 0)
-                    destination = data[0];
+                    destination = userData.DefaultDirectory;
 
                 // Shift Modifier
-                else if (modifier == 1 && data[4] == "1")
-                    destination = data[1];
+                else if (modifier == 1 && userData.ShiftCheckbox == true)
+                    destination = userData.ShiftDirectory;
 
                 // Ctrl Modifier
-                else if (modifier == 2 && data[5] == "1")
-                    destination = data[2];
+                else if (modifier == 2 && userData.CtrlCheckbox == true)
+                    destination = userData.CtrlDirectory;
 
                 destination = $"{destination}/{Name}";
             } else

@@ -7,6 +7,7 @@ using System.IO;
 using System.Net;
 
 using Toras.Utilities;
+using Toras.Data;
 
 namespace Toras.Core
 {
@@ -22,6 +23,7 @@ namespace Toras.Core
 
         private static List<File> fileQueue = new List<File>(); // Stores all files to be transferred
         private static int fileCounter = 1; // Records the file count
+        private static UserData userData = Loader.GetUserData();
 
         /* Adds the parsed File to the fileQueue List */
         public static void AddToQueue(File file)
@@ -66,9 +68,9 @@ namespace Toras.Core
         // Transfers files to an FTP server
         private static void FtpTransfer()
         {
-            Ftp.Address = "ftp://192.168.1.2/";
-            Ftp.Username = "";
-            Ftp.Password = "";
+            Ftp.Address = userData.FtpAddress;
+            Ftp.Username = userData.FtpUsername;
+            Ftp.Password = userData.FtpPassword;
 
             foreach (File file in fileQueue)
             {
