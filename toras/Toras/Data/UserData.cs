@@ -19,7 +19,7 @@ namespace Toras.Data
         public string FtpAddress { get; set; }
         public string FtpUsername { get; set; }
         public string FtpPassword { get; set; }
-        public byte[] encrypted { get; set; }
+        public byte[] Encrypted { get; set; }
         public byte[] IV { get; set; }
 
         public void SetDefaultData()
@@ -33,8 +33,8 @@ namespace Toras.Data
             FtpAddress = ""; // FTP Address
             FtpUsername = ""; // FTP Username
             FtpPassword = ""; // FTP Password
-            encrypted = null;
-            IV = null;
+            Encrypted = GenerateIV(); // Encrypted byte[]
+            IV = null; // Initialization Vector byte[]
 
             if (IV == null)
                 IV = GenerateIV();
@@ -43,7 +43,7 @@ namespace Toras.Data
         /* Generates a one-time initialization vector for encryption and decryption */
         private byte[] GenerateIV()
         {
-            byte[] IV = new byte[16];
+            byte[] IV = new byte[16]; // 128 bit
             Random rand = new Random();
             rand.NextBytes(IV);
             

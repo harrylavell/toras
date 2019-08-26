@@ -94,6 +94,7 @@ namespace Toras.UI
             userData.FtpAddress = FtpAddress.Text;
             userData.FtpUsername = FtpUsername.Text;
             userData.FtpPassword = FtpPassword.Password;
+            ResetApplyState();
         }
 
         private void ShiftCheckbox_changed(object sender, RoutedEventArgs e)

@@ -22,6 +22,7 @@ namespace Toras.Data
             using (AesManaged aes = new AesManaged())
             {
                 aes.BlockSize = 128;
+                aes.Padding = PaddingMode.PKCS7;
                 ICryptoTransform encryptor = aes.CreateEncryptor(key, IV);
 
                 using (MemoryStream ms = new MemoryStream())
@@ -45,6 +46,7 @@ namespace Toras.Data
             using (AesManaged aes = new AesManaged())
             {
                 aes.BlockSize = 128;
+                aes.Padding = PaddingMode.PKCS7;
                 // Create a decryptor    
                 ICryptoTransform decryptor = aes.CreateDecryptor(key, IV);
                 // Create the streams used for decryption.    

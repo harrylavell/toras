@@ -82,6 +82,7 @@ namespace Toras.Core
                 request.Credentials = new NetworkCredential(Ftp.Username, Ftp.Password); // FTP Server credentials
                 request.UsePassive = true;
                 request.UseBinary = true;
+                request.EnableSsl = true;
 
                 // Check if file is last in fileQueue
                 // Keep FTP request alive if not the last file
@@ -121,6 +122,7 @@ namespace Toras.Core
             FtpWebRequest request = (FtpWebRequest)FtpWebRequest.Create(Ftp.Address + "/" + name);
             request.Credentials = new NetworkCredential(Ftp.Username, Ftp.Password); // FTP Server credentials
             request.Method = WebRequestMethods.Ftp.GetFileSize;
+            request.EnableSsl = true;
 
             if (fileCounter < fileQueue.Count)
                 request.KeepAlive = true;

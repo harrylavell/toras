@@ -33,10 +33,17 @@ namespace Toras.Data
         {
             if (!UserFirstSession())
             {
-                Debug.Trace($"Original String: { userData.FtpPassword }");
-                userData.encrypted = Cipher.Encrypt(userData.FtpPassword, userData.IV);
-                userData.FtpPassword = ""; // Wipe password
-                Debug.Trace($"Encrypted String: { Encoding.ASCII.GetString(userData.encrypted) }");
+                // Attempt to encrypt FTP password
+                try
+                {
+                    Debug.Trace($"Original String: { userData.FtpPassword }");
+                    userData.Encrypted = Cipher.Encrypt(userData.FtpPassword, userData.IV);
+                    userData.FtpPassword = ""; // Wipe password
+                    Debug.Trace($"Encrypted String: { Encoding.ASCII.GetString(userData.Encrypted) }");
+                } catch (CryptographicException e)
+                {
+                    Debug.Trace(e.Message);
+                }
             }
 
             File.Delete(FileManager.DataPath); // Delete data.bin
@@ -70,15 +77,23 @@ namespace Toras.Data
                 Debug.Trace(e.ToString());
             }
 
-            Debug.Trace($"Encrypted String: { Encoding.ASCII.GetString(userData.encrypted) }");
-            userData.FtpPassword = Cipher.Decrypt(userData.encrypted, userData.IV);
-            Debug.Trace($"Decrypted String: {userData.FtpPassword}");
+            // Attempt to decrypt FTP password
+            try
+            {
+                Debug.Trace($"Encrypted String: { Encoding.ASCII.GetString(userData.Encrypted) }");
+                userData.FtpPassword = Cipher.Decrypt(userData.Encrypted, userData.IV);
+                Debug.Trace($"Decrypted String: {userData.FtpPassword}");
+            } catch (CryptographicException e)
+            {
+                Debug.Trace(e.Message);
+            }
 
             fstream.Flush();
             fstream.Close();
             fstream.Dispose();
         }
 
+        /* Returns this instance of UserData */
         public static UserData GetUserData()
         {
             return userData;
