@@ -115,6 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\File.cs" />
+    <Compile Include="Data\Cipher.cs" />
     <Compile Include="Data\Loader.cs" />
     <Compile Include="Data\UserData.cs" />
     <Compile Include="Utilities\Debug.cs" />

@@ -98,28 +98,19 @@ namespace Toras.UI
 
         private void ShiftCheckbox_changed(object sender, RoutedEventArgs e)
         {
-            if (ShiftCheckbox.IsChecked == true)
-                userData.ShiftCheckbox = true; // True
-            else
-                userData.ShiftCheckbox = false; // False
+            userData.ShiftCheckbox = (bool)ShiftCheckbox.IsChecked;
             ResetApplyState();
         }
 
         private void CtrlCheckbox_changed(object sender, RoutedEventArgs e)
         {
-            if (CtrlCheckbox.IsChecked == true)
-                userData.CtrlCheckbox = true; // True
-            else
-                userData.CtrlCheckbox = false; // False
+            userData.CtrlCheckbox = (bool)CtrlCheckbox.IsChecked;
             ResetApplyState();
         }
 
         private void FtpCheckbox_changed(object sender, RoutedEventArgs e)
         {
-            if (FtpCheckbox.IsChecked == true)
-                userData.FtpCheckbox = true; // True
-            else
-                userData.FtpCheckbox = false; // False
+            userData.FtpCheckbox = (bool)FtpCheckbox.IsChecked;
             ResetApplyState();
         }
 
@@ -139,7 +130,9 @@ namespace Toras.UI
         /* Exits the application after saving */
         private void OkButton_click(object sender, RoutedEventArgs e)
         {
-            FileManager.Save(); // Saves directory paths to file
+
+            if (ApplyButton.IsEnabled == true)
+                FileManager.Save(); // Saves directory paths to file
             App.Current.Shutdown();
         }
         

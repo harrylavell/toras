@@ -7,6 +7,7 @@ using Toras.Utilities;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System.Security.Cryptography;
 
 namespace Toras.Data
 {
@@ -15,7 +16,7 @@ namespace Toras.Data
         private static UserData userData = new UserData();
 
         public static void Init()
-        {
+        {           
             // Setup default user data or load from file
             if (UserFirstSession())
             {
@@ -30,6 +31,14 @@ namespace Toras.Data
         /* Deletes existing data.bin file (if exists) and replaces it with new user data. */
         public static void Serialize()
         {
+            if (!UserFirstSession())
+            {
+                Debug.Trace($"Original String: { userData.FtpPassword }");
+                userData.encrypted = Cipher.Encrypt(userData.FtpPassword, userData.IV);
+                userData.FtpPassword = ""; // Wipe password
+                Debug.Trace($"Encrypted String: { Encoding.ASCII.GetString(userData.encrypted) }");
+            }
+
             File.Delete(FileManager.DataPath); // Delete data.bin
             Stream stream = File.OpenWrite(FileManager.DataPath);
 
@@ -60,6 +69,10 @@ namespace Toras.Data
             {
                 Debug.Trace(e.ToString());
             }
+
+            Debug.Trace($"Encrypted String: { Encoding.ASCII.GetString(userData.encrypted) }");
+            userData.FtpPassword = Cipher.Decrypt(userData.encrypted, userData.IV);
+            Debug.Trace($"Decrypted String: {userData.FtpPassword}");
 
             fstream.Flush();
             fstream.Close();
